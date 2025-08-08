@@ -1,179 +1,320 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Mydemons2354 | GhostNet</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Spy Ninjas Fan Hub</title>
+  <meta name="description" content="Fan site for the Spy Ninjas — post and share YouTube content, team info, and news." />
   <style>
-    body {
-      margin: 0;
-      font-family: "Segoe UI", sans-serif;
-      background-color: #0a0a0a;
-      color: white;
-    }
+    :root{--bg:#0b0f17;--card:#0f1720;--accent:#ff4d6d;--muted:#9aa4b2;--glass:rgba(255,255,255,0.03)}
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;color:#e6eef6;background:linear-gradient(180deg,#06101a 0%, #071826 50%, #031019 100%)}
+    header{position:sticky;top:0;z-index:40;background:linear-gradient(180deg,rgba(3,6,10,0.6),rgba(3,6,10,0.3));backdrop-filter:blur(6px);padding:12px 20px;border-bottom:1px solid rgba(255,255,255,0.03);display:flex;align-items:center;gap:18px}
+    .logo{display:flex;align-items:center;gap:12px}
+    .logo .mark{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,#2e7cff,#b34dff);display:flex;align-items:center;justify-content:center;font-weight:700;color:white}
+    nav{margin-left:auto}
+    nav a{color:var(--muted);text-decoration:none;margin-left:14px;padding:8px 12px;border-radius:8px}
+    nav a.active,nav a:hover{color:white;background:var(--glass)}
+    .container{max-width:1100px;margin:28px auto;padding:0 18px}
 
-    .container {
-      max-width: 500px;
-      margin: auto;
-      padding: 20px;
-    }
+    .hero{display:grid;grid-template-columns:1fr 420px;gap:22px;align-items:center}
+    .brand{background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);padding:30px;border-radius:12px;border:1px solid rgba(255,255,255,0.03)}
+    .brand h1{margin:0;font-size:28px}
+    .brand p{color:var(--muted);line-height:1.4}
+    .cta{margin-top:14px;display:flex;gap:10px}
+    .btn{padding:10px 14px;border-radius:10px;border:0;cursor:pointer;background:var(--accent);color:white;font-weight:600}
+    .secondary{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)}
 
-    header {
-      text-align: center;
-      margin-bottom: 20px;
-    }
+    .card{background:var(--card);border-radius:12px;padding:14px;border:1px solid rgba(255,255,255,0.03)}
+    .videos-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+    .video-card{overflow:hidden;border-radius:10px;background:linear-gradient(180deg,rgba(0,0,0,0.3),rgba(0,0,0,0.25));border:1px solid rgba(255,255,255,0.03)}
+    .thumb{position:relative;padding-top:56.25%;background:#000}
+    .video-meta{padding:10px}
+    .video-meta h3{margin:0;font-size:15px}
+    .video-meta p{margin:6px 0 0;color:var(--muted);font-size:13px}
 
-    .logo {
-      color: #7289da;
-      font-size: 24px;
-      font-weight: bold;
-      text-decoration: none;
-    }
+    .form-row{display:flex;gap:8px}
+    input[type=text],textarea,select{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:#e7f0ff}
+    textarea{min-height:80px}
+    footer{padding:30px 0;color:var(--muted);text-align:center}
 
-    .card {
-      background-color: #111;
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: 0 0 20px rgba(0,0,0,0.3);
-      margin-bottom: 30px;
-    }
+    .team{display:flex;gap:10px;flex-wrap:wrap}
+    .member{background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);padding:12px;border-radius:8px;min-width:160px;text-align:center}
+    .member img{width:72px;height:72px;border-radius:12px;object-fit:cover}
 
-    .banner {
-      width: 100%;
-      height: 160px;
-      object-fit: cover;
-    }
+    .controls{display:flex;gap:8px;align-items:center}
+    .search{min-width:240px}
 
-    .profile {
-      display: flex;
-      align-items: center;
-      padding: 20px;
-    }
+    .small{font-size:12px;color:var(--muted)}
 
-    .profile img {
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      border: 3px solid #222;
-      margin-right: 20px;
-    }
-
-    .name {
-      font-size: 24px;
-      font-weight: bold;
-    }
-
-    .tags {
-      margin-top: 10px;
-    }
-
-    .tag {
-      display: inline-block;
-      background-color: #2c2f33;
-      padding: 5px 10px;
-      border-radius: 12px;
-      font-size: 12px;
-      margin: 4px 4px 0 0;
-    }
-
-    .tag.programmer { background-color: #5865f2; }
-
-    .info {
-      padding: 0 20px 20px;
-      font-size: 15px;
-      color: #ccc;
-    }
-
-    .about {
-      background-color: #111;
-      padding: 20px;
-      border-radius: 12px;
-      margin-bottom: 30px;
-      color: #ccc;
-      font-size: 15px;
-    }
-
-    h2 {
-      margin-top: 0;
-    }
-
-    .links {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .link {
-      display: flex;
-      align-items: center;
-      background-color: #111;
-      border-radius: 10px;
-      padding: 12px;
-      text-decoration: none;
-      color: white;
-      font-weight: 500;
-      transition: background 0.2s;
-    }
-
-    .link:hover {
-      background-color: #1a1a1a;
-    }
-
-    .link img {
-      width: 20px;
-      margin-right: 10px;
-    }
-
-    footer {
-      margin-top: 40px;
-      text-align: center;
-      color: #666;
-      font-size: 14px;
-    }
-
-    footer b {
-      color: white;
-    }
+    /* mobile */
+    @media(max-width:880px){.hero{grid-template-columns:1fr;}.logo .mark{width:38px;height:38px}.search{min-width:140px}}
   </style>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <a class="logo" href="#">🔗 GhostNet</a>
-    </header>
+  <header>
+    <div class="logo">
+      <div class="mark">SN</div>
+      <div>
+        <div style="font-weight:700;color:white">Spy Ninjas Fan Hub</div>
+        <div class="small">Fan-made site — post & share YouTube content</div>
+      </div>
+    </div>
+    <nav>
+      <a href="#home" class="active">Home</a>
+      <a href="#videos">Videos</a>
+      <a href="#team">Team</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
 
-    <div class="card">
-      <img class="banner" src="banner.png" alt="Banner" />
-      <div class="profile">
-        <img src="logo.png" alt="Profile Picture" />
-        <div>
-          <div class="name">Mydemons2354</div>
-          <div class="tags">
-            <span class="tag programmer">PROGRAMMER</span>
-            <span class="tag">VERIFIED</span>
-            <span class="tag">SUPPORTER</span>
-            <span class="tag">CONTENT</span>
+  <main class="container">
+    <section id="home" class="hero">
+      <div class="brand card">
+        <h1>Welcome to the Spy Ninjas Fan Hub</h1>
+        <p>Share and embed Spy Ninjas YouTube videos (Reo, Stormi, Shinobi, Styker, Chad, Vy and more). This is a lightweight, client-side site that stores posts locally in your browser. Use the "Add Video" form to post a YouTube link — it will show up instantly.</p>
+
+        <div class="cta">
+          <button class="btn" id="openAdd">Add Video</button>
+          <button class="secondary" id="clearAll">Clear All Posts</button>
+        </div>
+        <div style="margin-top:16px" class="small">Tip: Paste full YouTube URL or just the video id. Videos are stored locally (localStorage).</div>
+      </div>
+
+      <aside style="height:100%">
+        <div class="card" style="padding:12px;display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <strong>Videos</strong>
+            <div class="controls">
+              <input class="search" id="searchInput" placeholder="Search titles or IDs" />
+              <select id="sortSelect" title="Sort">
+                <option value="new">Newest</option>
+                <option value="old">Oldest</option>
+                <option value="title">Title</option>
+              </select>
+            </div>
+          </div>
+          <div class="small">Total posts: <span id="count">0</span></div>
+          <div style="margin-top:8px;display:flex;gap:8px;flex-direction:column">
+            <button class="secondary" id="openGallery">Open Gallery View</button>
+            <button class="secondary" id="exportBtn">Export Posts (.json)</button>
+            <button class="secondary" id="importBtn">Import Posts</button>
+            <input type="file" id="importFile" style="display:none" accept="application/json" />
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section id="videos" style="margin-top:20px">
+      <div style="display:flex;gap:12px;align-items:center;margin-bottom:10px">
+        <h2 style="margin:0">Videos</h2>
+        <div class="small">Browse and play embedded YouTube posts</div>
+      </div>
+
+      <div id="videosGrid" class="videos-grid"></div>
+    </section>
+
+    <section id="team" style="margin-top:22px">
+      <h2>Team & Allies</h2>
+      <div class="team card" style="margin-top:10px;padding:12px">
+        <div class="member">
+          <img src="https://i.imgur.com/5QfQ9wM.png" alt="Chad" />
+          <div style="font-weight:700;margin-top:8px">Chad Wild Clay</div>
+          <div class="small">Founder</div>
+        </div>
+        <div class="member">
+          <img src="https://i.imgur.com/0Z8m9kM.png" alt="Vy" />
+          <div style="font-weight:700;margin-top:8px">Vy Qwaint</div>
+          <div class="small">Founder</div>
+        </div>
+        <div class="member">
+          <img src="https://i.imgur.com/6r2bK9f.png" alt="Reo" />
+          <div style="font-weight:700;margin-top:8px">Reo</div>
+          <div class="small">Ally / Member</div>
+        </div>
+        <div class="member">
+          <img src="https://i.imgur.com/3kQX6qg.png" alt="Stormi" />
+          <div style="font-weight:700;margin-top:8px">Stormi</div>
+          <div class="small">Ally / Member</div>
+        </div>
+        <div class="member">
+          <img src="https://i.imgur.com/8aRk2bT.png" alt="Shinobi" />
+          <div style="font-weight:700;margin-top:8px">Shinobi</div>
+          <div class="small">Member</div>
+        </div>
+        <div class="member">
+          <img src="https://i.imgur.com/4cQfP1B.png" alt="Styker" />
+          <div style="font-weight:700;margin-top:8px">Styker</div>
+          <div class="small">Member</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" style="margin-top:22px">
+      <h2>About This Site</h2>
+      <div class="card" style="margin-top:8px">
+        <p class="small">This fan site is a lightweight, public client-side project that allows anyone to add and share Spy Ninjas YouTube content locally in their browser. It stores posts using <code>localStorage</code>. There is no server or login — to keep posts private or share them, use the <strong>Export</strong> button to save a JSON file and re-import it elsewhere.</p>
+      </div>
+    </section>
+
+    <section id="contact" style="margin-top:22px;margin-bottom:40px">
+      <h2>Contact</h2>
+      <div class="card" style="margin-top:8px">
+        <p class="small">This is a fan project. For official Spy Ninjas collaboration or copyright concerns, contact the official Spy Ninjas channels on YouTube or their website.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="small">Spy Ninjas Fan Hub — client-side demo • Made for fans. Not affiliated with Spy Ninjas.</div>
+  </footer>
+
+  <!-- Add / Edit Modal (simple) -->
+  <div id="modal" style="position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.6);z-index:80">
+    <div style="width:100%;max-width:760px;padding:16px">
+      <div class="card">
+        <h3 id="modalTitle">Add Video</h3>
+        <div style="display:flex;gap:12px;flex-direction:column">
+          <input id="videoTitle" placeholder="Title (example: Spy Ninjas - New Mission)" />
+          <input id="videoUrl" placeholder="YouTube URL or video ID" />
+          <textarea id="videoDesc" placeholder="Short description (optional)"></textarea>
+          <div style="display:flex;gap:8px;justify-content:flex-end">
+            <button class="secondary" id="cancelBtn">Cancel</button>
+            <button class="btn" id="saveBtn">Save Post</button>
           </div>
         </div>
       </div>
-      <div class="info">
-        17 | English | Professional Minecraft Player | 44 Subscribers on YT
-      </div>
     </div>
-
-    <div class="about">
-      I'm a passionate Minecraft gamer and dedicated coder who loves building both in-game and in real life. Whether I'm grinding through Redstone mechanics or scripting in HTML and JS, I enjoy turning creativity into cool projects. I’m all about learning, sharing, and having fun with the community.
-    </div>
-
-    <h2>My Links</h2>
-    <div class="links">
-      <a class="link" href="https://www.twitch.tv/mydemonsyt" target="_blank"><img src="https://img.icons8.com/ios-filled/50/ffffff/twitch.png"/>Twitch</a>
-      <a class="link" href="https://www.youtube.com/@MydemonsYT" target="_blank"><img src="https://img.icons8.com/ios-filled/50/ffffff/youtube-play.png"/>YouTube</a>
-    </div>
-
-    <footer>
-      Built with love by <b>GhostNet</b> and <b>solace's fingers</b> • 2025
-    </footer>
   </div>
+
+  <script>
+    // Simple client-side post system using localStorage
+    const STORAGE_KEY = 'spyfan_posts_v1';
+    const modal = document.getElementById('modal');
+    const openAdd = document.getElementById('openAdd');
+    const cancelBtn = document.getElementById('cancelBtn');
+    const saveBtn = document.getElementById('saveBtn');
+    const videoTitle = document.getElementById('videoTitle');
+    const videoUrl = document.getElementById('videoUrl');
+    const videoDesc = document.getElementById('videoDesc');
+    const videosGrid = document.getElementById('videosGrid');
+    const count = document.getElementById('count');
+    const searchInput = document.getElementById('searchInput');
+    const sortSelect = document.getElementById('sortSelect');
+    const clearAll = document.getElementById('clearAll');
+    const exportBtn = document.getElementById('exportBtn');
+    const importBtn = document.getElementById('importBtn');
+    const importFile = document.getElementById('importFile');
+
+    let posts = [];
+    let editingId = null;
+
+    // Helpers
+    function load() {
+      try{posts = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]')}catch(e){posts=[]}
+    }
+    function save() { localStorage.setItem(STORAGE_KEY, JSON.stringify(posts)); render(); }
+    function uid(len=8){return Math.random().toString(36).slice(2,2+len)}
+    function parseYouTubeId(url){
+      if(!url) return '';
+      // If it's just an ID (no non-alphanumeric), return it
+      if(/^[-_A-Za-z0-9]{10,}$/.test(url)) return url;
+      // common URL patterns
+      try{
+        const u = new URL(url);
+        if(u.hostname.includes('youtu.be')) return u.pathname.slice(1);
+        if(u.searchParams.get('v')) return u.searchParams.get('v');
+      }catch(e){}
+      // fallback
+      const m = url.match(/[\?&]v=([^&]+)/) || url.match(/youtu\.be\/([^?&/]+)/) || url.match(/embed\/([^?&/]+)/);
+      return m ? m[1] : '';
+    }
+
+    function makeThumbnailUrl(id){ return id ? `https://i.ytimg.com/vi/${id}/hqdefault.jpg` : '' }
+
+    function render(){
+      videosGrid.innerHTML = '';
+      const q = (searchInput.value||'').toLowerCase();
+      let list = posts.slice();
+      if(sortSelect.value==='title') list.sort((a,b)=>a.title.localeCompare(b.title));
+      else if(sortSelect.value==='old') list.sort((a,b)=>a.created - b.created);
+      else list.sort((a,b)=>b.created - a.created);
+      if(q) list = list.filter(p=> (p.title+p.id+p.desc).toLowerCase().includes(q));
+      count.textContent = list.length;
+
+      if(!list.length){ videosGrid.innerHTML = `<div class="card small">No posts found. Use "Add Video" to create a post.</div>`; return }
+
+      for(const p of list){
+        const card = document.createElement('div'); card.className='video-card';
+        const thumb = document.createElement('div'); thumb.className='thumb';
+        thumb.style.backgroundImage = `url('${makeThumbnailUrl(p.id)}')`;
+        thumb.style.backgroundSize = 'cover';
+        thumb.style.backgroundPosition = 'center';
+        thumb.innerHTML = `<iframe src="https://www.youtube.com/embed/${p.id}?rel=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%"></iframe>`;
+        const meta = document.createElement('div'); meta.className='video-meta';
+        meta.innerHTML = `<h3>${escapeHtml(p.title||'Untitled')}</h3><p class="small">${escapeHtml(p.desc||'')}</p><div style="margin-top:8px;display:flex;gap:8px;justify-content:flex-end"><button class="secondary" data-id="${p.uid}" onclick="editPost(event)">Edit</button><button class="secondary" data-id="${p.uid}" onclick="deletePost(event)">Delete</button></div>`;
+        card.appendChild(thumb); card.appendChild(meta); videosGrid.appendChild(card);
+      }
+    }
+
+    // Basic escaping
+    function escapeHtml(s){ return String(s||'').replace(/[&<>\"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"})[c]) }
+
+    // CRUD
+    openAdd.addEventListener('click', ()=>{ openModal(); });
+    cancelBtn.addEventListener('click', closeModal);
+    clearAll.addEventListener('click', ()=>{ if(confirm('Clear all posts? This cannot be undone.')){posts=[];save()} });
+
+    saveBtn.addEventListener('click', ()=>{
+      const raw = videoUrl.value.trim(); const id = parseYouTubeId(raw);
+      if(!id){ alert('Could not detect a YouTube video id from that URL/ID.'); return }
+      const title = videoTitle.value.trim() || 'Untitled Video';
+      const desc = videoDesc.value.trim();
+      if(editingId){
+        const idx = posts.findIndex(p=>p.uid===editingId);
+        if(idx!==-1){ posts[idx].title=title; posts[idx].desc=desc; posts[idx].id=id; posts[idx].updated = Date.now(); }
+      }else{
+        posts.push({uid:uid(10),title,desc,id,created:Date.now()});
+      }
+      closeModal(); save();
+    });
+
+    window.editPost = function(ev){ const id = ev.currentTarget.getAttribute('data-id'); const p = posts.find(x=>x.uid===id); if(!p) return; editingId=id; videoTitle.value=p.title; videoUrl.value=p.id; videoDesc.value=p.desc; openModal('Edit Post'); }
+    window.deletePost = function(ev){ const id = ev.currentTarget.getAttribute('data-id'); if(!confirm('Delete post?')) return; posts = posts.filter(x=>x.uid!==id); save(); }
+
+    function openModal(title='Add Video'){ modal.style.display='flex'; document.getElementById('modalTitle').textContent = title; videoTitle.value=''; videoUrl.value=''; videoDesc.value=''; editingId=null; setTimeout(()=>videoTitle.focus(),120); }
+    function closeModal(){ modal.style.display='none'; editingId=null; }
+
+    // search & sort
+    searchInput.addEventListener('input', render);
+    sortSelect.addEventListener('change', render);
+
+    // export/import
+    exportBtn.addEventListener('click', ()=>{
+      const data = JSON.stringify(posts, null, 2);
+      const blob = new Blob([data], {type:'application/json'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href = url; a.download = 'spyfan_posts.json'; a.click(); URL.revokeObjectURL(url);
+    });
+    importBtn.addEventListener('click', ()=>importFile.click());
+    importFile.addEventListener('change', ()=>{
+      const f = importFile.files[0]; if(!f) return; const r=new FileReader(); r.onload = e=>{ try{const data=JSON.parse(e.target.result); if(Array.isArray(data)){ posts = data.map(d=>({uid:d.uid||uid(8),title:d.title||'',desc:d.desc||'',id:d.id||'',created:d.created||Date.now()})); save(); alert('Imported '+posts.length+' posts.'); }else alert('Invalid file format.'); }catch(err){alert('Error reading file: '+err.message);} }; r.readAsText(f);
+    });
+
+    // init sample posts if none exist
+    function seedIfEmpty(){ if(posts.length) return; posts = [
+      {uid:uid(6),title:'Spy Ninjas — Official Trailer',desc:'Sample post. Replace with real YouTube links.',id:'dQw4w9WgXcQ',created:Date.now()-1000*60*60*24},
+    ]; save(); }
+
+    // init
+    load(); seedIfEmpty(); render();
+
+    // small exposure for navigation links
+    document.querySelectorAll('header nav a').forEach(a=>a.addEventListener('click', e=>{ document.querySelectorAll('header nav a').forEach(x=>x.classList.remove('active')); a.classList.add('active'); }));
+
+    // Export current posts to console for debugging
+    window.spyfan = {getPosts:()=>posts,save,load};
+  </script>
 </body>
 </html>
