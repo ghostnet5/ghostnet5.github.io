@@ -1,320 +1,445 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Spy Ninjas Fan Hub</title>
-  <meta name="description" content="Fan site for the Spy Ninjas — post and share YouTube content, team info, and news." />
-  <style>
-    :root{--bg:#0b0f17;--card:#0f1720;--accent:#ff4d6d;--muted:#9aa4b2;--glass:rgba(255,255,255,0.03)}
-    *{box-sizing:border-box}
-    html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;color:#e6eef6;background:linear-gradient(180deg,#06101a 0%, #071826 50%, #031019 100%)}
-    header{position:sticky;top:0;z-index:40;background:linear-gradient(180deg,rgba(3,6,10,0.6),rgba(3,6,10,0.3));backdrop-filter:blur(6px);padding:12px 20px;border-bottom:1px solid rgba(255,255,255,0.03);display:flex;align-items:center;gap:18px}
-    .logo{display:flex;align-items:center;gap:12px}
-    .logo .mark{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,#2e7cff,#b34dff);display:flex;align-items:center;justify-content:center;font-weight:700;color:white}
-    nav{margin-left:auto}
-    nav a{color:var(--muted);text-decoration:none;margin-left:14px;padding:8px 12px;border-radius:8px}
-    nav a.active,nav a:hover{color:white;background:var(--glass)}
-    .container{max-width:1100px;margin:28px auto;padding:0 18px}
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { MessageCircle, Shield, Zap, Users, Globe2, Sparkles, Star, Check, Menu, X } from "lucide-react";
 
-    .hero{display:grid;grid-template-columns:1fr 420px;gap:22px;align-items:center}
-    .brand{background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);padding:30px;border-radius:12px;border:1px solid rgba(255,255,255,0.03)}
-    .brand h1{margin:0;font-size:28px}
-    .brand p{color:var(--muted);line-height:1.4}
-    .cta{margin-top:14px;display:flex;gap:10px}
-    .btn{padding:10px 14px;border-radius:10px;border:0;cursor:pointer;background:var(--accent);color:white;font-weight:600}
-    .secondary{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)}
+// Simple Badge component
+const Badge = ({ children }) => (
+  <span className="inline-flex items-center rounded-full border border-white/20 bg-white/5 px-3 py-1 text-xs font-medium tracking-wide backdrop-blur">
+    {children}
+  </span>
+);
 
-    .card{background:var(--card);border-radius:12px;padding:14px;border:1px solid rgba(255,255,255,0.03)}
-    .videos-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
-    .video-card{overflow:hidden;border-radius:10px;background:linear-gradient(180deg,rgba(0,0,0,0.3),rgba(0,0,0,0.25));border:1px solid rgba(255,255,255,0.03)}
-    .thumb{position:relative;padding-top:56.25%;background:#000}
-    .video-meta{padding:10px}
-    .video-meta h3{margin:0;font-size:15px}
-    .video-meta p{margin:6px 0 0;color:var(--muted);font-size:13px}
+// Simple Container
+const Container = ({ className = "", children }) => (
+  <div className={`mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 ${className}`}>{children}</div>
+);
 
-    .form-row{display:flex;gap:8px}
-    input[type=text],textarea,select{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:#e7f0ff}
-    textarea{min-height:80px}
-    footer{padding:30px 0;color:var(--muted);text-align:center}
+// NavBar
+const NavBar = () => {
+  const [open, setOpen] = useState(false);
+  const scrollTo = (id) => {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: "smooth" });
+    setOpen(false);
+  };
 
-    .team{display:flex;gap:10px;flex-wrap:wrap}
-    .member{background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);padding:12px;border-radius:8px;min-width:160px;text-align:center}
-    .member img{width:72px;height:72px;border-radius:12px;object-fit:cover}
-
-    .controls{display:flex;gap:8px;align-items:center}
-    .search{min-width:240px}
-
-    .small{font-size:12px;color:var(--muted)}
-
-    /* mobile */
-    @media(max-width:880px){.hero{grid-template-columns:1fr;}.logo .mark{width:38px;height:38px}.search{min-width:140px}}
-  </style>
-</head>
-<body>
-  <header>
-    <div class="logo">
-      <div class="mark">SN</div>
-      <div>
-        <div style="font-weight:700;color:white">Spy Ninjas Fan Hub</div>
-        <div class="small">Fan-made site — post & share YouTube content</div>
-      </div>
-    </div>
-    <nav>
-      <a href="#home" class="active">Home</a>
-      <a href="#videos">Videos</a>
-      <a href="#team">Team</a>
-      <a href="#about">About</a>
-      <a href="#contact">Contact</a>
-    </nav>
-  </header>
-
-  <main class="container">
-    <section id="home" class="hero">
-      <div class="brand card">
-        <h1>Welcome to the Spy Ninjas Fan Hub</h1>
-        <p>Share and embed Spy Ninjas YouTube videos (Reo, Stormi, Shinobi, Styker, Chad, Vy and more). This is a lightweight, client-side site that stores posts locally in your browser. Use the "Add Video" form to post a YouTube link — it will show up instantly.</p>
-
-        <div class="cta">
-          <button class="btn" id="openAdd">Add Video</button>
-          <button class="secondary" id="clearAll">Clear All Posts</button>
+  return (
+    <header className="sticky top-0 z-50 border-b border-white/10 bg-[#0b0b12]/80 backdrop-blur">
+      <Container className="flex items-center justify-between py-3">
+        <div className="flex items-center gap-3">
+          <div className="grid h-9 w-9 place-items-center rounded-2xl bg-gradient-to-br from-indigo-500 via-purple-500 to-cyan-400 shadow-md shadow-indigo-500/20">
+            <Sparkles className="h-5 w-5 text-white" />
+          </div>
+          <span className="text-lg font-semibold tracking-tight">NebulaChat</span>
         </div>
-        <div style="margin-top:16px" class="small">Tip: Paste full YouTube URL or just the video id. Videos are stored locally (localStorage).</div>
-      </div>
 
-      <aside style="height:100%">
-        <div class="card" style="padding:12px;display:flex;flex-direction:column;gap:8px">
-          <div style="display:flex;justify-content:space-between;align-items:center">
-            <strong>Videos</strong>
-            <div class="controls">
-              <input class="search" id="searchInput" placeholder="Search titles or IDs" />
-              <select id="sortSelect" title="Sort">
-                <option value="new">Newest</option>
-                <option value="old">Oldest</option>
-                <option value="title">Title</option>
-              </select>
+        <nav className="hidden items-center gap-8 text-sm md:flex">
+          <button onClick={() => scrollTo("features")} className="opacity-80 transition hover:opacity-100">Features</button>
+          <button onClick={() => scrollTo("preview")} className="opacity-80 transition hover:opacity-100">Preview</button>
+          <button onClick={() => scrollTo("pricing")} className="opacity-80 transition hover:opacity-100">Pricing</button>
+          <button onClick={() => scrollTo("faq")} className="opacity-80 transition hover:opacity-100">FAQ</button>
+        </nav>
+
+        <div className="hidden md:flex items-center gap-3">
+          <a href="#" className="text-sm opacity-80 hover:opacity-100">Sign In</a>
+          <a href="#get-started" className="rounded-2xl bg-white px-4 py-2 text-sm font-semibold text-black hover:bg-white/90">Get Started</a>
+        </div>
+
+        <button className="md:hidden" onClick={() => setOpen(!open)} aria-label="Toggle Menu">
+          {open ? <X /> : <Menu />}
+        </button>
+      </Container>
+
+      {open && (
+        <div className="border-t border-white/10 md:hidden">
+          <Container className="flex flex-col gap-2 py-4">
+            <button onClick={() => scrollTo("features")} className="py-2 text-left">Features</button>
+            <button onClick={() => scrollTo("preview")} className="py-2 text-left">Preview</button>
+            <button onClick={() => scrollTo("pricing")} className="py-2 text-left">Pricing</button>
+            <button onClick={() => scrollTo("faq")} className="py-2 text-left">FAQ</button>
+          </Container>
+        </div>
+      )}
+    </header>
+  );
+};
+
+// Hero Section
+const Hero = () => {
+  return (
+    <section className="relative overflow-hidden">
+      <div className="pointer-events-none absolute inset-0 -z-10">
+        <div className="absolute -left-40 -top-40 h-96 w-96 rounded-full bg-indigo-600/30 blur-3xl" />
+        <div className="absolute bottom-[-8rem] right-[-5rem] h-[28rem] w-[28rem] rounded-full bg-cyan-500/20 blur-3xl" />
+        <div className="absolute left-1/2 top-1/2 h-40 w-40 -translate-x-1/2 -translate-y-1/2 rounded-full bg-purple-500/20 blur-2xl" />
+      </div>
+      <Container className="relative grid grid-cols-1 items-center gap-10 py-16 sm:py-24 lg:grid-cols-2">
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
+          <div className="mb-4 flex items-center gap-3">
+            <Badge>Private • Fast • Cross‑Platform</Badge>
+            <span className="text-xs opacity-75">v1.0 beta</span>
+          </div>
+          <h1 className="text-4xl font-bold leading-tight sm:text-5xl">
+            A sleek, privacy‑first chat platform —
+            <span className="block bg-gradient-to-r from-indigo-200 via-white to-cyan-200 bg-clip-text text-transparent"> a modern Discord alternative.</span>
+          </h1>
+          <p className="mt-4 max-w-xl text-base leading-relaxed opacity-80">
+            Create spaces, hop into voice in a click, and keep communities thriving — without the bloat. End‑to‑end encryption for DMs and small groups out of the box.
+          </p>
+          <div className="mt-6 flex flex-wrap gap-3">
+            <a id="get-started" href="#pricing" className="rounded-2xl bg-white px-5 py-3 text-sm font-semibold text-black hover:bg-white/90">Get Started Free</a>
+            <a href="#preview" className="rounded-2xl border border-white/20 px-5 py-3 text-sm font-semibold opacity-90 hover:opacity-100">See Live Preview</a>
+          </div>
+          <div className="mt-4 flex items-center gap-3 text-xs opacity-70">
+            <Star className="h-4 w-4" />
+            <span>Trusted by 12,000+ creators & communities</span>
+          </div>
+        </motion.div>
+
+        <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.1 }} className="">
+          <div className="relative rounded-2xl border border-white/10 bg-white/5 p-2 shadow-2xl shadow-black/40">
+            <div className="rounded-xl bg-[#0f0f17] p-4">
+              <div className="mb-3 flex items-center gap-2">
+                <span className="h-2 w-2 rounded-full bg-red-500" />
+                <span className="h-2 w-2 rounded-full bg-yellow-500" />
+                <span className="h-2 w-2 rounded-full bg-green-500" />
+                <span className="ml-2 text-xs opacity-70">NebulaChat — Community Hub</span>
+              </div>
+
+              {/* Mock chat UI */}
+              <div className="grid grid-cols-[260px_1fr] gap-4">
+                <aside className="hidden rounded-lg border border-white/10 bg-white/5 p-3 sm:block">
+                  <p className="mb-2 text-xs uppercase tracking-wider opacity-60">Servers</p>
+                  <div className="flex flex-col gap-2">
+                    {[
+                      "Creators Lounge",
+                      "Gaming Night",
+                      "Study Room",
+                      "Music Lab",
+                      "Admin HQ",
+                    ].map((n, i) => (
+                      <button key={n} className={`flex items-center justify-between rounded-lg px-3 py-2 text-left text-sm transition hover:bg-white/5 ${i===1 ? "bg-white/10" : ""}`}>
+                        <span className="truncate">{n}</span>
+                        <span className="text-[10px] opacity-60">{i===1?"LIVE":i%2?"NEW":""}</span>
+                      </button>
+                    ))}
+                  </div>
+                </aside>
+                <main className="rounded-lg border border-white/10 bg-white/5 p-3">
+                  <div className="mb-3 flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <MessageCircle className="h-4 w-4" />
+                      <span className="text-sm font-medium"># general</span>
+                    </div>
+                    <Badge>Voice: 5 connected</Badge>
+                  </div>
+
+                  <div className="space-y-3 text-sm">
+                    <ChatRow name="Astra" msg="Welcome to NebulaChat! Grab a role and say hi ✨"/>
+                    <ChatRow name="Nova" msg="Spin up a Stage for tonight’s AMA?"/>
+                    <ChatRow name="Sol" msg="DMs are encrypted by default. Big W."/>
+                    <ChatRow name="Echo" msg="Screen share looks crisp at 4K 👀"/>
+                  </div>
+
+                  <div className="mt-4 grid grid-cols-2 gap-3 text-xs opacity-80 sm:grid-cols-4">
+                    <FeaturePill icon={<Shield className="h-3 w-3"/>} text="E2E DMs"/>
+                    <FeaturePill icon={<Zap className="h-3 w-3"/>} text="Low‑latency voice"/>
+                    <FeaturePill icon={<Users className="h-3 w-3"/>} text="Stage events"/>
+                    <FeaturePill icon={<Globe2 className="h-3 w-3"/>} text="Global edges"/>
+                  </div>
+                </main>
+              </div>
             </div>
           </div>
-          <div class="small">Total posts: <span id="count">0</span></div>
-          <div style="margin-top:8px;display:flex;gap:8px;flex-direction:column">
-            <button class="secondary" id="openGallery">Open Gallery View</button>
-            <button class="secondary" id="exportBtn">Export Posts (.json)</button>
-            <button class="secondary" id="importBtn">Import Posts</button>
-            <input type="file" id="importFile" style="display:none" accept="application/json" />
+        </motion.div>
+      </Container>
+    </section>
+  );
+};
+
+const FeaturePill = ({ icon, text }) => (
+  <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-2">
+    {icon}
+    <span>{text}</span>
+  </div>
+);
+
+// Features Section
+const Features = () => {
+  const features = [
+    {
+      icon: <Shield className="h-5 w-5"/>,
+      title: "Private by design",
+      desc: "End‑to‑end encrypted DMs and small group chats. Your keys never leave your device.",
+    },
+    {
+      icon: <Zap className="h-5 w-5"/>,
+      title: "Voice that feels instant",
+      desc: "Global low‑latency relays and noise suppression keep calls clear even on café Wi‑Fi.",
+    },
+    {
+      icon: <Users className="h-5 w-5"/>,
+      title: "Communities that scale",
+      desc: "Channels, roles, threads, stages — without the clutter. Tools built for creators.",
+    },
+    {
+      icon: <Globe2 className="h-5 w-5"/>,
+      title: "Everywhere you are",
+      desc: "Web, Windows, macOS, Linux, iOS, Android. Open APIs for bots and automations.",
+    },
+  ];
+
+  return (
+    <section id="features" className="py-20">
+      <Container>
+        <div className="mx-auto mb-10 max-w-2xl text-center">
+          <Badge>Why switch?</Badge>
+          <h2 className="mt-3 text-3xl font-bold sm:text-4xl">Everything you love — less of what you don’t.</h2>
+          <p className="mt-3 opacity-75">We focused on speed, privacy, and delightful details so your community can just… talk.</p>
+        </div>
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+          {features.map((f) => (
+            <motion.div key={f.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4 }}
+              className="rounded-2xl border border-white/10 bg-white/5 p-5 shadow-lg">
+              <div className="mb-3 grid h-10 w-10 place-items-center rounded-xl bg-white/10">{f.icon}</div>
+              <h3 className="text-lg font-semibold">{f.title}</h3>
+              <p className="mt-2 text-sm opacity-75">{f.desc}</p>
+            </motion.div>
+          ))}
+        </div>
+      </Container>
+    </section>
+  );
+};
+
+// Live Preview Section
+const Preview = () => {
+  const [tab, setTab] = useState("chat");
+  return (
+    <section id="preview" className="border-y border-white/10 bg-white/[0.02] py-20">
+      <Container>
+        <div className="mx-auto max-w-3xl text-center">
+          <Badge>Live Preview</Badge>
+          <h2 className="mt-3 text-3xl font-bold sm:text-4xl">Try the feel before you sign up.</h2>
+          <p className="mt-3 opacity-75">Switch tabs to explore our lightweight UI concepts.</p>
+        </div>
+
+        <div className="mx-auto mt-8 max-w-5xl rounded-2xl border border-white/10 bg-[#0f0f17] p-4">
+          <div className="mb-4 flex flex-wrap items-center gap-2">
+            {["chat", "voice", "roles"].map((t) => (
+              <button key={t} onClick={() => setTab(t)}
+                className={`rounded-xl px-4 py-2 text-sm capitalize transition ${tab===t?"bg-white text-black":"bg-white/5 hover:bg-white/10"}`}>{t}</button>
+            ))}
           </div>
+
+          {tab === "chat" && (
+            <div className="space-y-3 text-sm">
+              <ChatRow name="You" msg="Markdown, code blocks, polls — it just works."/>
+              <CodeBlock code={`/** Poll: What should we stream tonight? */\n- 🎮 Elden Ring\n- 🎤 Karaoke\n- 🎬 Movie Night`} />
+              <ChatRow name="Atlas" msg="Drag‑and‑drop media with instant previews."/>
+            </div>
+          )}
+
+          {tab === "voice" && (
+            <div className="grid gap-4 sm:grid-cols-2">
+              {["Astra","Nova","Sol","Echo"].map((n,i)=> (
+                <div key={n} className="flex items-center justify-between rounded-xl border border-white/10 bg-white/5 p-3">
+                  <div className="flex items-center gap-3">
+                    <div className="grid h-10 w-10 place-items-center rounded-xl bg-white/10 text-sm">{n[0]}</div>
+                    <div>
+                      <p className="text-sm font-medium">{n}</p>
+                      <p className="text-xs opacity-60">{i%2?"Talking…":"Muted"}</p>
+                    </div>
+                  </div>
+                  <Badge>{i%2?"Live":"Push‑to‑Talk"}</Badge>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {tab === "roles" && (
+            <div className="grid gap-4 sm:grid-cols-3">
+              {[
+                { name: "Admin", color: "indigo", perks: ["All permissions","Priority voice","Audit logs"] },
+                { name: "Moderator", color: "emerald", perks: ["Timeout","Slowmode override","Pins"] },
+                { name: "Member", color: "cyan", perks: ["Media uploads","Polls","Threads"] },
+              ].map((r) => (
+                <div key={r.name} className="rounded-2xl border border-white/10 bg-white/5 p-4">
+                  <div className={`inline-flex items-center gap-2 rounded-full bg-${r.color}-500/20 px-3 py-1 text-xs`}>
+                    <span className={`h-2 w-2 rounded-full bg-${r.color}-400`}></span>
+                    <span>{r.name}</span>
+                  </div>
+                  <ul className="mt-3 space-y-2 text-sm opacity-80">
+                    {r.perks.map((p)=> (
+                      <li key={p} className="flex items-center gap-2"><Check className="h-4 w-4"/>{p}</li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
-      </aside>
+      </Container>
     </section>
+  );
+};
 
-    <section id="videos" style="margin-top:20px">
-      <div style="display:flex;gap:12px;align-items:center;margin-bottom:10px">
-        <h2 style="margin:0">Videos</h2>
-        <div class="small">Browse and play embedded YouTube posts</div>
-      </div>
+const CodeBlock = ({ code }) => (
+  <pre className="overflow-auto rounded-xl border border-white/10 bg-black/60 p-4 text-xs leading-relaxed">
+    <code>{code}</code>
+  </pre>
+);
 
-      <div id="videosGrid" class="videos-grid"></div>
-    </section>
-
-    <section id="team" style="margin-top:22px">
-      <h2>Team & Allies</h2>
-      <div class="team card" style="margin-top:10px;padding:12px">
-        <div class="member">
-          <img src="https://i.imgur.com/5QfQ9wM.png" alt="Chad" />
-          <div style="font-weight:700;margin-top:8px">Chad Wild Clay</div>
-          <div class="small">Founder</div>
-        </div>
-        <div class="member">
-          <img src="https://i.imgur.com/0Z8m9kM.png" alt="Vy" />
-          <div style="font-weight:700;margin-top:8px">Vy Qwaint</div>
-          <div class="small">Founder</div>
-        </div>
-        <div class="member">
-          <img src="https://i.imgur.com/6r2bK9f.png" alt="Reo" />
-          <div style="font-weight:700;margin-top:8px">Reo</div>
-          <div class="small">Ally / Member</div>
-        </div>
-        <div class="member">
-          <img src="https://i.imgur.com/3kQX6qg.png" alt="Stormi" />
-          <div style="font-weight:700;margin-top:8px">Stormi</div>
-          <div class="small">Ally / Member</div>
-        </div>
-        <div class="member">
-          <img src="https://i.imgur.com/8aRk2bT.png" alt="Shinobi" />
-          <div style="font-weight:700;margin-top:8px">Shinobi</div>
-          <div class="small">Member</div>
-        </div>
-        <div class="member">
-          <img src="https://i.imgur.com/4cQfP1B.png" alt="Styker" />
-          <div style="font-weight:700;margin-top:8px">Styker</div>
-          <div class="small">Member</div>
-        </div>
-      </div>
-    </section>
-
-    <section id="about" style="margin-top:22px">
-      <h2>About This Site</h2>
-      <div class="card" style="margin-top:8px">
-        <p class="small">This fan site is a lightweight, public client-side project that allows anyone to add and share Spy Ninjas YouTube content locally in their browser. It stores posts using <code>localStorage</code>. There is no server or login — to keep posts private or share them, use the <strong>Export</strong> button to save a JSON file and re-import it elsewhere.</p>
-      </div>
-    </section>
-
-    <section id="contact" style="margin-top:22px;margin-bottom:40px">
-      <h2>Contact</h2>
-      <div class="card" style="margin-top:8px">
-        <p class="small">This is a fan project. For official Spy Ninjas collaboration or copyright concerns, contact the official Spy Ninjas channels on YouTube or their website.</p>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <div class="small">Spy Ninjas Fan Hub — client-side demo • Made for fans. Not affiliated with Spy Ninjas.</div>
-  </footer>
-
-  <!-- Add / Edit Modal (simple) -->
-  <div id="modal" style="position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.6);z-index:80">
-    <div style="width:100%;max-width:760px;padding:16px">
-      <div class="card">
-        <h3 id="modalTitle">Add Video</h3>
-        <div style="display:flex;gap:12px;flex-direction:column">
-          <input id="videoTitle" placeholder="Title (example: Spy Ninjas - New Mission)" />
-          <input id="videoUrl" placeholder="YouTube URL or video ID" />
-          <textarea id="videoDesc" placeholder="Short description (optional)"></textarea>
-          <div style="display:flex;gap:8px;justify-content:flex-end">
-            <button class="secondary" id="cancelBtn">Cancel</button>
-            <button class="btn" id="saveBtn">Save Post</button>
-          </div>
-        </div>
-      </div>
+const ChatRow = ({ name, msg }) => (
+  <div className="flex items-start gap-3">
+    <div className="grid h-8 w-8 place-items-center rounded-lg bg-white/10 text-xs">{name[0]}</div>
+    <div>
+      <p className="text-xs opacity-60">{name} • just now</p>
+      <p className="text-sm">{msg}</p>
     </div>
   </div>
+);
 
-  <script>
-    // Simple client-side post system using localStorage
-    const STORAGE_KEY = 'spyfan_posts_v1';
-    const modal = document.getElementById('modal');
-    const openAdd = document.getElementById('openAdd');
-    const cancelBtn = document.getElementById('cancelBtn');
-    const saveBtn = document.getElementById('saveBtn');
-    const videoTitle = document.getElementById('videoTitle');
-    const videoUrl = document.getElementById('videoUrl');
-    const videoDesc = document.getElementById('videoDesc');
-    const videosGrid = document.getElementById('videosGrid');
-    const count = document.getElementById('count');
-    const searchInput = document.getElementById('searchInput');
-    const sortSelect = document.getElementById('sortSelect');
-    const clearAll = document.getElementById('clearAll');
-    const exportBtn = document.getElementById('exportBtn');
-    const importBtn = document.getElementById('importBtn');
-    const importFile = document.getElementById('importFile');
+// Pricing Section
+const Pricing = () => {
+  const tiers = [
+    {
+      name: "Free",
+      price: "$0",
+      tagline: "For friends & small groups",
+      cta: "Start Free",
+      features: ["Unlimited servers", "Up to 50 voice slots", "E2E DMs", "1 GB uploads"],
+      highlight: false,
+    },
+    {
+      name: "Creator",
+      price: "$7/mo",
+      tagline: "For growing communities",
+      cta: "Start 14‑day Trial",
+      features: ["Priority voice", "Analytics", "Custom themes", "10 GB uploads"],
+      highlight: true,
+    },
+    {
+      name: "Pro",
+      price: "$19/mo",
+      tagline: "For studios & orgs",
+      cta: "Contact Sales",
+      features: ["SAML SSO", "Advanced moderation", "Webhooks & API", "24/7 support"],
+      highlight: false,
+    },
+  ];
 
-    let posts = [];
-    let editingId = null;
+  return (
+    <section id="pricing" className="py-20">
+      <Container>
+        <div className="mx-auto mb-10 max-w-2xl text-center">
+          <Badge>Simple pricing</Badge>
+          <h2 className="mt-3 text-3xl font-bold sm:text-4xl">Fair tiers that grow with you.</h2>
+          <p className="mt-3 opacity-75">Switch anytime. No ads. No tracking. Ever.</p>
+        </div>
 
-    // Helpers
-    function load() {
-      try{posts = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]')}catch(e){posts=[]}
-    }
-    function save() { localStorage.setItem(STORAGE_KEY, JSON.stringify(posts)); render(); }
-    function uid(len=8){return Math.random().toString(36).slice(2,2+len)}
-    function parseYouTubeId(url){
-      if(!url) return '';
-      // If it's just an ID (no non-alphanumeric), return it
-      if(/^[-_A-Za-z0-9]{10,}$/.test(url)) return url;
-      // common URL patterns
-      try{
-        const u = new URL(url);
-        if(u.hostname.includes('youtu.be')) return u.pathname.slice(1);
-        if(u.searchParams.get('v')) return u.searchParams.get('v');
-      }catch(e){}
-      // fallback
-      const m = url.match(/[\?&]v=([^&]+)/) || url.match(/youtu\.be\/([^?&/]+)/) || url.match(/embed\/([^?&/]+)/);
-      return m ? m[1] : '';
-    }
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+          {tiers.map((t) => (
+            <div key={t.name} className={`relative rounded-2xl border border-white/10 bg-white/5 p-6 ${t.highlight?"ring-2 ring-indigo-400":""}`}>
+              {t.highlight && (
+                <span className="absolute -top-3 left-6 rounded-full bg-indigo-500 px-3 py-1 text-xs font-semibold">Most Popular</span>
+              )}
+              <h3 className="text-lg font-semibold">{t.name}</h3>
+              <p className="mt-1 text-sm opacity-70">{t.tagline}</p>
+              <p className="mt-4 text-4xl font-bold">{t.price}</p>
+              <ul className="mt-4 space-y-2 text-sm">
+                {t.features.map((f) => (
+                  <li key={f} className="flex items-center gap-2 opacity-90"><Check className="h-4 w-4"/>{f}</li>
+                ))}
+              </ul>
+              <a href="#" className="mt-6 inline-block rounded-xl bg-white px-4 py-2 text-sm font-semibold text-black hover:bg-white/90">{t.cta}</a>
+            </div>
+          ))}
+        </div>
+      </Container>
+    </section>
+  );
+};
 
-    function makeThumbnailUrl(id){ return id ? `https://i.ytimg.com/vi/${id}/hqdefault.jpg` : '' }
+// FAQ Section
+const FAQ = () => {
+  const qs = [
+    {
+      q: "Is this an actual app I can use today?",
+      a: "This is a demo landing page you can customize with your own branding and links. Hook it to your auth and backend when you're ready.",
+    },
+    {
+      q: "Does NebulaChat support bots?",
+      a: "Yes — the public API can support bot accounts, webhooks, and event subscriptions once implemented.",
+    },
+    {
+      q: "How is privacy handled?",
+      a: "Client‑side keys for DMs and small groups. For large servers, server‑side moderation tools keep communities safe.",
+    },
+    {
+      q: "Can I import my community?",
+      a: "Provide an invite link and role map — members can onboard with a single click.",
+    },
+  ];
 
-    function render(){
-      videosGrid.innerHTML = '';
-      const q = (searchInput.value||'').toLowerCase();
-      let list = posts.slice();
-      if(sortSelect.value==='title') list.sort((a,b)=>a.title.localeCompare(b.title));
-      else if(sortSelect.value==='old') list.sort((a,b)=>a.created - b.created);
-      else list.sort((a,b)=>b.created - a.created);
-      if(q) list = list.filter(p=> (p.title+p.id+p.desc).toLowerCase().includes(q));
-      count.textContent = list.length;
+  const [open, setOpen] = useState(0);
+  return (
+    <section id="faq" className="py-20">
+      <Container>
+        <div className="mx-auto max-w-3xl">
+          <div className="mb-8 text-center">
+            <Badge>FAQ</Badge>
+            <h2 className="mt-3 text-3xl font-bold sm:text-4xl">You might be wondering…</h2>
+          </div>
+          <div className="space-y-3">
+            {qs.map((item, idx) => (
+              <div key={item.q} className="rounded-2xl border border-white/10 bg-white/5">
+                <button onClick={() => setOpen(open===idx? -1 : idx)} className="flex w-full items-center justify-between px-5 py-4 text-left">
+                  <span className="font-medium">{item.q}</span>
+                  <span className="text-xl leading-none">{open===idx?"−":"+"}</span>
+                </button>
+                {open===idx && (
+                  <div className="px-5 pb-5 text-sm opacity-80">{item.a}</div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </Container>
+    </section>
+  );
+};
 
-      if(!list.length){ videosGrid.innerHTML = `<div class="card small">No posts found. Use "Add Video" to create a post.</div>`; return }
+const Footer = () => (
+  <footer className="border-t border-white/10 py-10">
+    <Container className="flex flex-col items-center justify-between gap-6 sm:flex-row">
+      <div className="flex items-center gap-3">
+        <div className="grid h-8 w-8 place-items-center rounded-xl bg-gradient-to-br from-indigo-500 to-cyan-400">
+          <Sparkles className="h-4 w-4" />
+        </div>
+        <span className="text-sm opacity-80">© {new Date().getFullYear()} NebulaChat</span>
+      </div>
+      <nav className="flex items-center gap-6 text-sm opacity-80">
+        <a href="#features" className="hover:opacity-100">Features</a>
+        <a href="#pricing" className="hover:opacity-100">Pricing</a>
+        <a href="#faq" className="hover:opacity-100">FAQ</a>
+        <a href="#" className="hover:opacity-100">Privacy</a>
+      </nav>
+    </Container>
+  </footer>
+);
 
-      for(const p of list){
-        const card = document.createElement('div'); card.className='video-card';
-        const thumb = document.createElement('div'); thumb.className='thumb';
-        thumb.style.backgroundImage = `url('${makeThumbnailUrl(p.id)}')`;
-        thumb.style.backgroundSize = 'cover';
-        thumb.style.backgroundPosition = 'center';
-        thumb.innerHTML = `<iframe src="https://www.youtube.com/embed/${p.id}?rel=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%"></iframe>`;
-        const meta = document.createElement('div'); meta.className='video-meta';
-        meta.innerHTML = `<h3>${escapeHtml(p.title||'Untitled')}</h3><p class="small">${escapeHtml(p.desc||'')}</p><div style="margin-top:8px;display:flex;gap:8px;justify-content:flex-end"><button class="secondary" data-id="${p.uid}" onclick="editPost(event)">Edit</button><button class="secondary" data-id="${p.uid}" onclick="deletePost(event)">Delete</button></div>`;
-        card.appendChild(thumb); card.appendChild(meta); videosGrid.appendChild(card);
-      }
-    }
-
-    // Basic escaping
-    function escapeHtml(s){ return String(s||'').replace(/[&<>\"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"})[c]) }
-
-    // CRUD
-    openAdd.addEventListener('click', ()=>{ openModal(); });
-    cancelBtn.addEventListener('click', closeModal);
-    clearAll.addEventListener('click', ()=>{ if(confirm('Clear all posts? This cannot be undone.')){posts=[];save()} });
-
-    saveBtn.addEventListener('click', ()=>{
-      const raw = videoUrl.value.trim(); const id = parseYouTubeId(raw);
-      if(!id){ alert('Could not detect a YouTube video id from that URL/ID.'); return }
-      const title = videoTitle.value.trim() || 'Untitled Video';
-      const desc = videoDesc.value.trim();
-      if(editingId){
-        const idx = posts.findIndex(p=>p.uid===editingId);
-        if(idx!==-1){ posts[idx].title=title; posts[idx].desc=desc; posts[idx].id=id; posts[idx].updated = Date.now(); }
-      }else{
-        posts.push({uid:uid(10),title,desc,id,created:Date.now()});
-      }
-      closeModal(); save();
-    });
-
-    window.editPost = function(ev){ const id = ev.currentTarget.getAttribute('data-id'); const p = posts.find(x=>x.uid===id); if(!p) return; editingId=id; videoTitle.value=p.title; videoUrl.value=p.id; videoDesc.value=p.desc; openModal('Edit Post'); }
-    window.deletePost = function(ev){ const id = ev.currentTarget.getAttribute('data-id'); if(!confirm('Delete post?')) return; posts = posts.filter(x=>x.uid!==id); save(); }
-
-    function openModal(title='Add Video'){ modal.style.display='flex'; document.getElementById('modalTitle').textContent = title; videoTitle.value=''; videoUrl.value=''; videoDesc.value=''; editingId=null; setTimeout(()=>videoTitle.focus(),120); }
-    function closeModal(){ modal.style.display='none'; editingId=null; }
-
-    // search & sort
-    searchInput.addEventListener('input', render);
-    sortSelect.addEventListener('change', render);
-
-    // export/import
-    exportBtn.addEventListener('click', ()=>{
-      const data = JSON.stringify(posts, null, 2);
-      const blob = new Blob([data], {type:'application/json'});
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a'); a.href = url; a.download = 'spyfan_posts.json'; a.click(); URL.revokeObjectURL(url);
-    });
-    importBtn.addEventListener('click', ()=>importFile.click());
-    importFile.addEventListener('change', ()=>{
-      const f = importFile.files[0]; if(!f) return; const r=new FileReader(); r.onload = e=>{ try{const data=JSON.parse(e.target.result); if(Array.isArray(data)){ posts = data.map(d=>({uid:d.uid||uid(8),title:d.title||'',desc:d.desc||'',id:d.id||'',created:d.created||Date.now()})); save(); alert('Imported '+posts.length+' posts.'); }else alert('Invalid file format.'); }catch(err){alert('Error reading file: '+err.message);} }; r.readAsText(f);
-    });
-
-    // init sample posts if none exist
-    function seedIfEmpty(){ if(posts.length) return; posts = [
-      {uid:uid(6),title:'Spy Ninjas — Official Trailer',desc:'Sample post. Replace with real YouTube links.',id:'dQw4w9WgXcQ',created:Date.now()-1000*60*60*24},
-    ]; save(); }
-
-    // init
-    load(); seedIfEmpty(); render();
-
-    // small exposure for navigation links
-    document.querySelectorAll('header nav a').forEach(a=>a.addEventListener('click', e=>{ document.querySelectorAll('header nav a').forEach(x=>x.classList.remove('active')); a.classList.add('active'); }));
-
-    // Export current posts to console for debugging
-    window.spyfan = {getPosts:()=>posts,save,load};
-  </script>
-</body>
-</html>
+export default function App() {
+  return (
+    <div className="min-h-screen scroll-smooth bg-[#0b0b12] font-sans text-white">
+      <NavBar />
+      <Hero />
+      <Features />
+      <Preview />
+      <Pricing />
+      <FAQ />
+      <Footer />
+    </div>
+  );
+}
+        
