@@ -1,181 +1,236 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cosmic Realms CPvP Tier List</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background: #0b0c10;
-            color: #c5c6c7;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            flex-direction: column;
-        }
-        header {
-            background: #1f2833;
-            text-align: center;
-            padding: 1rem;
-            font-size: 2rem;
-            font-weight: bold;
-            color: #66fcf1;
-            width: 100%;
-        }
-        .tier-container {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin: 20px;
-        }
-        .tier {
-            background: #1f2833;
-            border-radius: 10px;
-            padding: 10px;
-            width: 200px;
-            min-height: 300px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        .tier h2 {
-            margin: 0;
-            padding: 10px;
-            background: #66fcf1;
-            color: #0b0c10;
-            border-radius: 5px;
-            width: 100%;
-            text-align: center;
-        }
-        .tier-items {
-            margin-top: 10px;
-            width: 100%;
-            min-height: 200px;
-            background: #0b0c10;
-            border-radius: 5px;
-            padding: 10px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-        }
-        .item {
-            background: #66fcf1;
-            color: #0b0c10;
-            padding: 8px;
-            border-radius: 5px;
-            cursor: grab;
-            user-select: none;
-        }
-        button {
-            margin: 10px;
-            padding: 10px 20px;
-            background: #45a29e;
-            color: #0b0c10;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        button:hover {
-            background: #66fcf1;
-            color: #0b0c10;
-        }
-        @media (max-width: 768px) {
-            .tier-container {
-                flex-direction: column;
-                align-items: center;
-            }
-            .tier {
-                width: 90%;
-                margin-bottom: 10px;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sweet Japan's Portfolio</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #121212;
+      color: #e0e0e0;
+    }
+    header {
+      background-color: #1f1f1f;
+      padding: 20px;
+      color: white;
+      text-align: center;
+    }
+    .portfolio {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      padding: 40px;
+      background-color: #1a1a1a;
+    }
+    .project {
+      background: #2a2a2a;
+      border: 1px solid #333;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+      transition: transform 0.3s;
+    }
+    .project:hover {
+      transform: translateY(-5px);
+    }
+    .project-content {
+      padding: 20px;
+    }
+    .project-title {
+      font-size: 20px;
+      margin-bottom: 10px;
+      color: #ffffff;
+    }
+    .project-description {
+      font-size: 14px;
+      color: #b0b0b0;
+    }
+    .skills {
+      background-color: #1f1f1f;
+      padding: 40px;
+      text-align: center;
+    }
+    .skills h2 {
+      font-size: 28px;
+      margin-bottom: 20px;
+      color: #ffffff;
+    }
+    .skills-list {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+    .skills-list li {
+      background: #2a2a2a;
+      padding: 10px 20px;
+      border-radius: 5px;
+      font-size: 16px;
+      color: #e0e0e0;
+      border: 1px solid #333;
+    }
+    .current-projects {
+      background-color: #1a1a1a;
+      padding: 60px 20px 20px 20px;
+      text-align: center;
+    }
+    .current-projects h2 {
+      font-size: 32px;
+      color: #ffffff;
+      margin-bottom: 20px;
+    }
+    .showcase {
+      background-color: #1a1a1a;
+      padding: 20px 40px 60px 40px;
+    }
+    .showcase-content {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 40px;
+      margin-bottom: 60px;
+    }
+    .showcase-text {
+      flex: 1 1 300px;
+      max-width: 500px;
+      text-align: left;
+    }
+    .showcase-text h3 {
+      font-size: 26px;
+      color: #ffffff;
+      margin-bottom: 15px;
+    }
+    .showcase-text p {
+      font-size: 16px;
+      line-height: 1.6;
+      margin-bottom: 10px;
+    }
+    .showcase-text a {
+      color: #4da6ff;
+      text-decoration: none;
+    }
+    .showcase-text a:hover {
+      text-decoration: underline;
+    }
+    .showcase-image {
+      flex: 1 1 300px;
+      max-width: 500px;
+    }
+    .showcase-image img {
+      width: 100%;
+      border-radius: 10px;
+      border: 1px solid #333;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+      transition: transform 0.3s;
+    }
+    .showcase-image img:hover {
+      transform: scale(1.02);
+    }
+  </style>
 </head>
 <body>
-    <header>Cosmic Realms CPvP Tier List</header>
-    <div class="tier-container" id="tiers">
-        <div class="tier" data-tier="S">
-            <h2>S Tier</h2>
-            <div class="tier-items" id="S"></div>
-        </div>
-        <div class="tier" data-tier="A">
-            <h2>A Tier</h2>
-            <div class="tier-items" id="A"></div>
-        </div>
-        <div class="tier" data-tier="B">
-            <h2>B Tier</h2>
-            <div class="tier-items" id="B"></div>
-        </div>
-        <div class="tier" data-tier="C">
-            <h2>C Tier</h2>
-            <div class="tier-items" id="C"></div>
-        </div>
-        <div class="tier" data-tier="D">
-            <h2>D Tier</h2>
-            <div class="tier-items" id="D"></div>
-        </div>
-        <div class="tier" data-tier="Unranked">
-            <h2>Unranked</h2>
-            <div class="tier-items" id="Unranked">
-                <div class="item" draggable="true">Diamond Sword</div>
-                <div class="item" draggable="true">Netherite Sword</div>
-                <div class="item" draggable="true">Crystal PvP</div>
-                <div class="item" draggable="true">Hydro PvP</div>
-                <div class="item" draggable="true">1v1 Kit</div>
-            </div>
-        </div>
+
+  <header>
+    <h1>Sweet Japan's Portfolio</h1>
+    <p>Minecraft Bedrock Developer | Discord: xbvbbles</p>
+  </header>
+
+  <section class="portfolio">
+    <div class="project">
+      <div class="project-content">
+        <h2 class="project-title">Bedrock Plus</h2>
+        <p class="project-description">A revolutionary Minecraft Bedrock experience. Established 2024.</p>
+      </div>
     </div>
-    <button id="export">🖼 Export as Image</button>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <script>
-        const items = document.querySelectorAll('.item');
-        const tiers = document.querySelectorAll('.tier-items');
-        let draggedItem = null;
 
-        items.forEach(item => {
-            item.addEventListener('dragstart', () => {
-                draggedItem = item;
-                setTimeout(() => item.style.display = 'none', 0);
-            });
-            item.addEventListener('dragend', () => {
-                setTimeout(() => {
-                    draggedItem.style.display = 'block';
-                    draggedItem = null;
-                }, 0);
-            });
-        });
+    <div class="project">
+      <div class="project-content">
+        <h2 class="project-title">Fade Studios</h2>
+        <p class="project-description">Innovative Minecraft server projects. Active 2020 - 2025.</p>
+      </div>
+    </div>
 
-        tiers.forEach(tier => {
-            tier.addEventListener('dragover', (e) => {
-                e.preventDefault();
-                tier.style.background = '#1f2833';
-            });
-            tier.addEventListener('dragleave', () => {
-                tier.style.background = '#0b0c10';
-            });
-            tier.addEventListener('drop', () => {
-                if (draggedItem) {
-                    tier.appendChild(draggedItem);
-                    tier.style.background = '#0b0c10';
-                }
-            });
-        });
+    <div class="project">
+      <div class="project-content">
+        <h2 class="project-title">Cyan Studios</h2>
+        <p class="project-description">Fresh creative experiences for Minecraft. Active 2024 - Present.</p>
+      </div>
+    </div>
 
-        document.getElementById('export').addEventListener('click', () => {
-            html2canvas(document.getElementById('tiers')).then(canvas => {
-                const link = document.createElement('a');
-                link.download = 'cpvp-tierlist.png';
-                link.href = canvas.toDataURL();
-                link.click();
-            });
-        });
-    </script>
+    <div class="project">
+      <div class="project-content">
+        <h2 class="project-title">Sakura Vanilla</h2>
+        <p class="project-description">A cozy Minecraft vanilla server experience. Active 2025 - Present.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="skills">
+    <h2>Skills</h2>
+    <ul class="skills-list">
+      <li>JavaScript</li>
+      <li>TypeScript</li>
+      <li>JSON</li>
+      <li>HTML</li>
+      <li>Hive Style</li>
+      <li>Building</li>
+    </ul>
+  </section>
+
+  <section class="current-projects">
+    <h2>Current Projects</h2>
+  </section>
+
+  <section class="showcase">
+    <!-- MCPEDL Showcase -->
+    <div class="showcase-content">
+      <div class="showcase-text">
+        <h3>MCPEDL</h3>
+        <p>I am ImperialCB and I make free scripts on my MCPEDLs which can be viewed below. I let others learn off of my own code I make.</p>
+        <p>
+          <a href="https://mcpedl.com/user/fade-studios/" target="_blank">Fade Studios MCPEDL</a><br>
+          <a href="https://mcpedl.com/user/cyanstudios/" target="_blank">Cyan Studios MCPEDL</a>
+        </p>
+      </div>
+      <div class="showcase-image">
+        <img src="https://img.youtube.com/vi/MbY92u0JAbo/maxresdefault.jpg" alt="MCPEDL Showcase">
+      </div>
+    </div>
+
+    <!-- Sakura Vanilla Showcase -->
+    <div class="showcase-content">
+      <div class="showcase-text">
+        <h3>Sakura Vanilla</h3>
+        <p>🌸 <strong>Sakura Vanilla</strong> 🌸 is Sweet's latest project, a vanilla world PvP server — the first of its kind! It features tier lists, subtier kits, main vanilla kits, and a custom bot to go with it.</p>
+        <p>
+          Links: <a href="https://discord.gg/PzxeWYZkz6" target="_blank">Discord</a>
+        </p>
+      </div>
+      <div class="showcase-image">
+        <img src="https://i3.ytimg.com/vi/aWO9QFuMWHQ/maxresdefault.jpg" alt="Sakura Vanilla Showcase">
+      </div>
+    </div>
+
+    <!-- Cyan Studios Showcase -->
+    <div class="showcase-content">
+      <div class="showcase-text">
+        <h3>Cyan Studios</h3>
+        <p><strong>Cyan Studios</strong> is a new project Imperial has begun working on this year where you can play many minigames at CyanGames, watch tutorials by the Cyan Studios team, and chat!</p>
+        <p>
+          Links: <a href="https://discord.gg/WxDRYZunuW" target="_blank">Discord</a>
+        </p>
+      </div>
+      <div class="showcase-image">
+        <img src="https://img.youtube.com/vi/mCJyOvrGX50/maxresdefault.jpg" alt="Cyan Studios Showcase">
+      </div>
+    </div>
+  </section>
+
 </body>
 </html>
