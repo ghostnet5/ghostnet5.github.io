@@ -1,445 +1,159 @@
-import React, { useState } from "react";
-import { motion } from "framer-motion";
-import { MessageCircle, Shield, Zap, Users, Globe2, Sparkles, Star, Check, Menu, X } from "lucide-react";
-
-// Simple Badge component
-const Badge = ({ children }) => (
-  <span className="inline-flex items-center rounded-full border border-white/20 bg-white/5 px-3 py-1 text-xs font-medium tracking-wide backdrop-blur">
-    {children}
-  </span>
-);
-
-// Simple Container
-const Container = ({ className = "", children }) => (
-  <div className={`mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 ${className}`}>{children}</div>
-);
-
-// NavBar
-const NavBar = () => {
-  const [open, setOpen] = useState(false);
-  const scrollTo = (id) => {
-    const el = document.getElementById(id);
-    if (el) el.scrollIntoView({ behavior: "smooth" });
-    setOpen(false);
-  };
-
-  return (
-    <header className="sticky top-0 z-50 border-b border-white/10 bg-[#0b0b12]/80 backdrop-blur">
-      <Container className="flex items-center justify-between py-3">
-        <div className="flex items-center gap-3">
-          <div className="grid h-9 w-9 place-items-center rounded-2xl bg-gradient-to-br from-indigo-500 via-purple-500 to-cyan-400 shadow-md shadow-indigo-500/20">
-            <Sparkles className="h-5 w-5 text-white" />
-          </div>
-          <span className="text-lg font-semibold tracking-tight">NebulaChat</span>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Cosmic Realms Website</title>
+  <style>
+    body {
+      margin: 0;
+      background: #1a1a2e;
+      font-family: 'Segoe UI', sans-serif;
+      color: #e6e6fa;
+    }
+    header {
+      background: #16213e;
+      padding: 20px 50px;
+      border-bottom: 3px solid #4ecca3;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .logo {
+      width: 120px;
+    }
+    nav {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .dropdown {
+      position: relative;
+    }
+    .dropbtn {
+      background: transparent;
+      color: #fff;
+      border: 2px solid #4ecca3;
+      padding: 10px 16px;
+      font-size: 15px;
+      cursor: pointer;
+      border-radius: 10px;
+      transition: 0.3s;
+    }
+    .dropbtn:hover {
+      background: #4ecca3;
+    }
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #16213e;
+      min-width: 160px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.4);
+      z-index: 1;
+      border: 1px solid #4ecca3;
+      border-radius: 10px;
+    }
+    .dropdown-content a {
+      color: #fff;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+      border-bottom: 1px solid #333;
+    }
+    .dropdown-content a:last-child {
+      border-bottom: none;
+    }
+    .dropdown-content a:hover {
+      background-color: #4ecca3;
+    }
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+    main {
+      padding: 60px 20px;
+      text-align: center;
+    }
+    h1 {
+      font-size: 2.6rem;
+      color: #4ecca3;
+      margin-bottom: 20px;
+    }
+    p {
+      font-size: 1.1rem;
+      max-width: 700px;
+      margin: 0 auto 30px;
+    }
+    .quote-box {
+      font-style: italic;
+      margin-top: 40px;
+      color: #dcdcdc;
+      font-size: 1.1rem;
+      height: 40px;
+      transition: opacity 0.5s ease;
+    }
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 14px;
+      background-color: #0f0f1c;
+      border-top: 2px solid #4ecca3;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="logo.png" alt="Logo" class="logo">
+    <nav>
+      <div class="dropdown">
+        <button class="dropbtn">Appeals</button>
+        <div class="dropdown-content">
+          <a href="bappeal.html">Ban</a>
+          <a href="sappeal.html">Suspension</a>
         </div>
-
-        <nav className="hidden items-center gap-8 text-sm md:flex">
-          <button onClick={() => scrollTo("features")} className="opacity-80 transition hover:opacity-100">Features</button>
-          <button onClick={() => scrollTo("preview")} className="opacity-80 transition hover:opacity-100">Preview</button>
-          <button onClick={() => scrollTo("pricing")} className="opacity-80 transition hover:opacity-100">Pricing</button>
-          <button onClick={() => scrollTo("faq")} className="opacity-80 transition hover:opacity-100">FAQ</button>
-        </nav>
-
-        <div className="hidden md:flex items-center gap-3">
-          <a href="#" className="text-sm opacity-80 hover:opacity-100">Sign In</a>
-          <a href="#get-started" className="rounded-2xl bg-white px-4 py-2 text-sm font-semibold text-black hover:bg-white/90">Get Started</a>
-        </div>
-
-        <button className="md:hidden" onClick={() => setOpen(!open)} aria-label="Toggle Menu">
-          {open ? <X /> : <Menu />}
-        </button>
-      </Container>
-
-      {open && (
-        <div className="border-t border-white/10 md:hidden">
-          <Container className="flex flex-col gap-2 py-4">
-            <button onClick={() => scrollTo("features")} className="py-2 text-left">Features</button>
-            <button onClick={() => scrollTo("preview")} className="py-2 text-left">Preview</button>
-            <button onClick={() => scrollTo("pricing")} className="py-2 text-left">Pricing</button>
-            <button onClick={() => scrollTo("faq")} className="py-2 text-left">FAQ</button>
-          </Container>
-        </div>
-      )}
-    </header>
-  );
-};
-
-// Hero Section
-const Hero = () => {
-  return (
-    <section className="relative overflow-hidden">
-      <div className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute -left-40 -top-40 h-96 w-96 rounded-full bg-indigo-600/30 blur-3xl" />
-        <div className="absolute bottom-[-8rem] right-[-5rem] h-[28rem] w-[28rem] rounded-full bg-cyan-500/20 blur-3xl" />
-        <div className="absolute left-1/2 top-1/2 h-40 w-40 -translate-x-1/2 -translate-y-1/2 rounded-full bg-purple-500/20 blur-2xl" />
       </div>
-      <Container className="relative grid grid-cols-1 items-center gap-10 py-16 sm:py-24 lg:grid-cols-2">
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-          <div className="mb-4 flex items-center gap-3">
-            <Badge>Private • Fast • Cross‑Platform</Badge>
-            <span className="text-xs opacity-75">v1.0 beta</span>
-          </div>
-          <h1 className="text-4xl font-bold leading-tight sm:text-5xl">
-            A sleek, privacy‑first chat platform —
-            <span className="block bg-gradient-to-r from-indigo-200 via-white to-cyan-200 bg-clip-text text-transparent"> a modern Discord alternative.</span>
-          </h1>
-          <p className="mt-4 max-w-xl text-base leading-relaxed opacity-80">
-            Create spaces, hop into voice in a click, and keep communities thriving — without the bloat. End‑to‑end encryption for DMs and small groups out of the box.
-          </p>
-          <div className="mt-6 flex flex-wrap gap-3">
-            <a id="get-started" href="#pricing" className="rounded-2xl bg-white px-5 py-3 text-sm font-semibold text-black hover:bg-white/90">Get Started Free</a>
-            <a href="#preview" className="rounded-2xl border border-white/20 px-5 py-3 text-sm font-semibold opacity-90 hover:opacity-100">See Live Preview</a>
-          </div>
-          <div className="mt-4 flex items-center gap-3 text-xs opacity-70">
-            <Star className="h-4 w-4" />
-            <span>Trusted by 12,000+ creators & communities</span>
-          </div>
-        </motion.div>
-
-        <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.1 }} className="">
-          <div className="relative rounded-2xl border border-white/10 bg-white/5 p-2 shadow-2xl shadow-black/40">
-            <div className="rounded-xl bg-[#0f0f17] p-4">
-              <div className="mb-3 flex items-center gap-2">
-                <span className="h-2 w-2 rounded-full bg-red-500" />
-                <span className="h-2 w-2 rounded-full bg-yellow-500" />
-                <span className="h-2 w-2 rounded-full bg-green-500" />
-                <span className="ml-2 text-xs opacity-70">NebulaChat — Community Hub</span>
-              </div>
-
-              {/* Mock chat UI */}
-              <div className="grid grid-cols-[260px_1fr] gap-4">
-                <aside className="hidden rounded-lg border border-white/10 bg-white/5 p-3 sm:block">
-                  <p className="mb-2 text-xs uppercase tracking-wider opacity-60">Servers</p>
-                  <div className="flex flex-col gap-2">
-                    {[
-                      "Creators Lounge",
-                      "Gaming Night",
-                      "Study Room",
-                      "Music Lab",
-                      "Admin HQ",
-                    ].map((n, i) => (
-                      <button key={n} className={`flex items-center justify-between rounded-lg px-3 py-2 text-left text-sm transition hover:bg-white/5 ${i===1 ? "bg-white/10" : ""}`}>
-                        <span className="truncate">{n}</span>
-                        <span className="text-[10px] opacity-60">{i===1?"LIVE":i%2?"NEW":""}</span>
-                      </button>
-                    ))}
-                  </div>
-                </aside>
-                <main className="rounded-lg border border-white/10 bg-white/5 p-3">
-                  <div className="mb-3 flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <MessageCircle className="h-4 w-4" />
-                      <span className="text-sm font-medium"># general</span>
-                    </div>
-                    <Badge>Voice: 5 connected</Badge>
-                  </div>
-
-                  <div className="space-y-3 text-sm">
-                    <ChatRow name="Astra" msg="Welcome to NebulaChat! Grab a role and say hi ✨"/>
-                    <ChatRow name="Nova" msg="Spin up a Stage for tonight’s AMA?"/>
-                    <ChatRow name="Sol" msg="DMs are encrypted by default. Big W."/>
-                    <ChatRow name="Echo" msg="Screen share looks crisp at 4K 👀"/>
-                  </div>
-
-                  <div className="mt-4 grid grid-cols-2 gap-3 text-xs opacity-80 sm:grid-cols-4">
-                    <FeaturePill icon={<Shield className="h-3 w-3"/>} text="E2E DMs"/>
-                    <FeaturePill icon={<Zap className="h-3 w-3"/>} text="Low‑latency voice"/>
-                    <FeaturePill icon={<Users className="h-3 w-3"/>} text="Stage events"/>
-                    <FeaturePill icon={<Globe2 className="h-3 w-3"/>} text="Global edges"/>
-                  </div>
-                </main>
-              </div>
-            </div>
-          </div>
-        </motion.div>
-      </Container>
-    </section>
-  );
-};
-
-const FeaturePill = ({ icon, text }) => (
-  <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-2">
-    {icon}
-    <span>{text}</span>
-  </div>
-);
-
-// Features Section
-const Features = () => {
-  const features = [
-    {
-      icon: <Shield className="h-5 w-5"/>,
-      title: "Private by design",
-      desc: "End‑to‑end encrypted DMs and small group chats. Your keys never leave your device.",
-    },
-    {
-      icon: <Zap className="h-5 w-5"/>,
-      title: "Voice that feels instant",
-      desc: "Global low‑latency relays and noise suppression keep calls clear even on café Wi‑Fi.",
-    },
-    {
-      icon: <Users className="h-5 w-5"/>,
-      title: "Communities that scale",
-      desc: "Channels, roles, threads, stages — without the clutter. Tools built for creators.",
-    },
-    {
-      icon: <Globe2 className="h-5 w-5"/>,
-      title: "Everywhere you are",
-      desc: "Web, Windows, macOS, Linux, iOS, Android. Open APIs for bots and automations.",
-    },
-  ];
-
-  return (
-    <section id="features" className="py-20">
-      <Container>
-        <div className="mx-auto mb-10 max-w-2xl text-center">
-          <Badge>Why switch?</Badge>
-          <h2 className="mt-3 text-3xl font-bold sm:text-4xl">Everything you love — less of what you don’t.</h2>
-          <p className="mt-3 opacity-75">We focused on speed, privacy, and delightful details so your community can just… talk.</p>
+      <div class="dropdown">
+        <button class="dropbtn">Tiers</button>
+        <div class="dropdown-content">
+          <a href="stiers.html">Tiers</a>
+          <a href="subtiers.html">Sub tiers</a>
         </div>
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
-          {features.map((f) => (
-            <motion.div key={f.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4 }}
-              className="rounded-2xl border border-white/10 bg-white/5 p-5 shadow-lg">
-              <div className="mb-3 grid h-10 w-10 place-items-center rounded-xl bg-white/10">{f.icon}</div>
-              <h3 className="text-lg font-semibold">{f.title}</h3>
-              <p className="mt-2 text-sm opacity-75">{f.desc}</p>
-            </motion.div>
-          ))}
-        </div>
-      </Container>
-    </section>
-  );
-};
-
-// Live Preview Section
-const Preview = () => {
-  const [tab, setTab] = useState("chat");
-  return (
-    <section id="preview" className="border-y border-white/10 bg-white/[0.02] py-20">
-      <Container>
-        <div className="mx-auto max-w-3xl text-center">
-          <Badge>Live Preview</Badge>
-          <h2 className="mt-3 text-3xl font-bold sm:text-4xl">Try the feel before you sign up.</h2>
-          <p className="mt-3 opacity-75">Switch tabs to explore our lightweight UI concepts.</p>
-        </div>
-
-        <div className="mx-auto mt-8 max-w-5xl rounded-2xl border border-white/10 bg-[#0f0f17] p-4">
-          <div className="mb-4 flex flex-wrap items-center gap-2">
-            {["chat", "voice", "roles"].map((t) => (
-              <button key={t} onClick={() => setTab(t)}
-                className={`rounded-xl px-4 py-2 text-sm capitalize transition ${tab===t?"bg-white text-black":"bg-white/5 hover:bg-white/10"}`}>{t}</button>
-            ))}
-          </div>
-
-          {tab === "chat" && (
-            <div className="space-y-3 text-sm">
-              <ChatRow name="You" msg="Markdown, code blocks, polls — it just works."/>
-              <CodeBlock code={`/** Poll: What should we stream tonight? */\n- 🎮 Elden Ring\n- 🎤 Karaoke\n- 🎬 Movie Night`} />
-              <ChatRow name="Atlas" msg="Drag‑and‑drop media with instant previews."/>
-            </div>
-          )}
-
-          {tab === "voice" && (
-            <div className="grid gap-4 sm:grid-cols-2">
-              {["Astra","Nova","Sol","Echo"].map((n,i)=> (
-                <div key={n} className="flex items-center justify-between rounded-xl border border-white/10 bg-white/5 p-3">
-                  <div className="flex items-center gap-3">
-                    <div className="grid h-10 w-10 place-items-center rounded-xl bg-white/10 text-sm">{n[0]}</div>
-                    <div>
-                      <p className="text-sm font-medium">{n}</p>
-                      <p className="text-xs opacity-60">{i%2?"Talking…":"Muted"}</p>
-                    </div>
-                  </div>
-                  <Badge>{i%2?"Live":"Push‑to‑Talk"}</Badge>
-                </div>
-              ))}
-            </div>
-          )}
-
-          {tab === "roles" && (
-            <div className="grid gap-4 sm:grid-cols-3">
-              {[
-                { name: "Admin", color: "indigo", perks: ["All permissions","Priority voice","Audit logs"] },
-                { name: "Moderator", color: "emerald", perks: ["Timeout","Slowmode override","Pins"] },
-                { name: "Member", color: "cyan", perks: ["Media uploads","Polls","Threads"] },
-              ].map((r) => (
-                <div key={r.name} className="rounded-2xl border border-white/10 bg-white/5 p-4">
-                  <div className={`inline-flex items-center gap-2 rounded-full bg-${r.color}-500/20 px-3 py-1 text-xs`}>
-                    <span className={`h-2 w-2 rounded-full bg-${r.color}-400`}></span>
-                    <span>{r.name}</span>
-                  </div>
-                  <ul className="mt-3 space-y-2 text-sm opacity-80">
-                    {r.perks.map((p)=> (
-                      <li key={p} className="flex items-center gap-2"><Check className="h-4 w-4"/>{p}</li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-      </Container>
-    </section>
-  );
-};
-
-const CodeBlock = ({ code }) => (
-  <pre className="overflow-auto rounded-xl border border-white/10 bg-black/60 p-4 text-xs leading-relaxed">
-    <code>{code}</code>
-  </pre>
-);
-
-const ChatRow = ({ name, msg }) => (
-  <div className="flex items-start gap-3">
-    <div className="grid h-8 w-8 place-items-center rounded-lg bg-white/10 text-xs">{name[0]}</div>
-    <div>
-      <p className="text-xs opacity-60">{name} • just now</p>
-      <p className="text-sm">{msg}</p>
-    </div>
-  </div>
-);
-
-// Pricing Section
-const Pricing = () => {
-  const tiers = [
-    {
-      name: "Free",
-      price: "$0",
-      tagline: "For friends & small groups",
-      cta: "Start Free",
-      features: ["Unlimited servers", "Up to 50 voice slots", "E2E DMs", "1 GB uploads"],
-      highlight: false,
-    },
-    {
-      name: "Creator",
-      price: "$7/mo",
-      tagline: "For growing communities",
-      cta: "Start 14‑day Trial",
-      features: ["Priority voice", "Analytics", "Custom themes", "10 GB uploads"],
-      highlight: true,
-    },
-    {
-      name: "Pro",
-      price: "$19/mo",
-      tagline: "For studios & orgs",
-      cta: "Contact Sales",
-      features: ["SAML SSO", "Advanced moderation", "Webhooks & API", "24/7 support"],
-      highlight: false,
-    },
-  ];
-
-  return (
-    <section id="pricing" className="py-20">
-      <Container>
-        <div className="mx-auto mb-10 max-w-2xl text-center">
-          <Badge>Simple pricing</Badge>
-          <h2 className="mt-3 text-3xl font-bold sm:text-4xl">Fair tiers that grow with you.</h2>
-          <p className="mt-3 opacity-75">Switch anytime. No ads. No tracking. Ever.</p>
-        </div>
-
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-          {tiers.map((t) => (
-            <div key={t.name} className={`relative rounded-2xl border border-white/10 bg-white/5 p-6 ${t.highlight?"ring-2 ring-indigo-400":""}`}>
-              {t.highlight && (
-                <span className="absolute -top-3 left-6 rounded-full bg-indigo-500 px-3 py-1 text-xs font-semibold">Most Popular</span>
-              )}
-              <h3 className="text-lg font-semibold">{t.name}</h3>
-              <p className="mt-1 text-sm opacity-70">{t.tagline}</p>
-              <p className="mt-4 text-4xl font-bold">{t.price}</p>
-              <ul className="mt-4 space-y-2 text-sm">
-                {t.features.map((f) => (
-                  <li key={f} className="flex items-center gap-2 opacity-90"><Check className="h-4 w-4"/>{f}</li>
-                ))}
-              </ul>
-              <a href="#" className="mt-6 inline-block rounded-xl bg-white px-4 py-2 text-sm font-semibold text-black hover:bg-white/90">{t.cta}</a>
-            </div>
-          ))}
-        </div>
-      </Container>
-    </section>
-  );
-};
-
-// FAQ Section
-const FAQ = () => {
-  const qs = [
-    {
-      q: "Is this an actual app I can use today?",
-      a: "This is a demo landing page you can customize with your own branding and links. Hook it to your auth and backend when you're ready.",
-    },
-    {
-      q: "Does NebulaChat support bots?",
-      a: "Yes — the public API can support bot accounts, webhooks, and event subscriptions once implemented.",
-    },
-    {
-      q: "How is privacy handled?",
-      a: "Client‑side keys for DMs and small groups. For large servers, server‑side moderation tools keep communities safe.",
-    },
-    {
-      q: "Can I import my community?",
-      a: "Provide an invite link and role map — members can onboard with a single click.",
-    },
-  ];
-
-  const [open, setOpen] = useState(0);
-  return (
-    <section id="faq" className="py-20">
-      <Container>
-        <div className="mx-auto max-w-3xl">
-          <div className="mb-8 text-center">
-            <Badge>FAQ</Badge>
-            <h2 className="mt-3 text-3xl font-bold sm:text-4xl">You might be wondering…</h2>
-          </div>
-          <div className="space-y-3">
-            {qs.map((item, idx) => (
-              <div key={item.q} className="rounded-2xl border border-white/10 bg-white/5">
-                <button onClick={() => setOpen(open===idx? -1 : idx)} className="flex w-full items-center justify-between px-5 py-4 text-left">
-                  <span className="font-medium">{item.q}</span>
-                  <span className="text-xl leading-none">{open===idx?"−":"+"}</span>
-                </button>
-                {open===idx && (
-                  <div className="px-5 pb-5 text-sm opacity-80">{item.a}</div>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-      </Container>
-    </section>
-  );
-};
-
-const Footer = () => (
-  <footer className="border-t border-white/10 py-10">
-    <Container className="flex flex-col items-center justify-between gap-6 sm:flex-row">
-      <div className="flex items-center gap-3">
-        <div className="grid h-8 w-8 place-items-center rounded-xl bg-gradient-to-br from-indigo-500 to-cyan-400">
-          <Sparkles className="h-4 w-4" />
-        </div>
-        <span className="text-sm opacity-80">© {new Date().getFullYear()} NebulaChat</span>
       </div>
-      <nav className="flex items-center gap-6 text-sm opacity-80">
-        <a href="#features" className="hover:opacity-100">Features</a>
-        <a href="#pricing" className="hover:opacity-100">Pricing</a>
-        <a href="#faq" className="hover:opacity-100">FAQ</a>
-        <a href="#" className="hover:opacity-100">Privacy</a>
-      </nav>
-    </Container>
+      <a class="dropbtn" href="https://discord.gg/PzxeWYZkz6" target="_blank">Discord</a>
+      <a class="dropbtn" href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <h1>Welcome to Cosmic Realms</h1>
+    <p>Your favorite galaxy-themed hub for community, Minecraft, and adventures. Explore new worlds, make friends, and enjoy the cosmic vibe.</p>
+    <div class="quote-box" id="quoteBox">Loading quote...</div>
+  </main>
+
+  <footer>
+    &copy; 2025 Cosmic Realms. All rights reserved.
   </footer>
-);
 
-export default function App() {
-  return (
-    <div className="min-h-screen scroll-smooth bg-[#0b0b12] font-sans text-white">
-      <NavBar />
-      <Hero />
-      <Features />
-      <Preview />
-      <Pricing />
-      <FAQ />
-      <Footer />
-    </div>
-  );
-}
-        
+  <script>
+    const quotes = [
+      '"This server feels like another universe" - StarLord99',
+      '"Best realm I’ve joined all year" - NovaCraft',
+      '"Bro you actually out-PvPed me.." - ShadowByte',
+      '"Finally a chill place to build and vibe" - LunarWolf',
+      '"I wasn’t ready for that spawn.. wow" - AstroKnight'
+    ];
+    let currentQuote = 0;
+    const quoteBox = document.getElementById("quoteBox");
+    function showNextQuote() {
+      quoteBox.style.opacity = 0;
+      setTimeout(() => {
+        quoteBox.textContent = quotes[currentQuote];
+        quoteBox.style.opacity = 1;
+        currentQuote = (currentQuote + 1) % quotes.length;
+      }, 300);
+    }
+    showNextQuote();
+    setInterval(showNextQuote, 4000);
+  </script>
+</body>
+</html>
