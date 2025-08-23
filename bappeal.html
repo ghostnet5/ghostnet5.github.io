@@ -72,7 +72,7 @@
   <h1>Ban Appeal</h1>
 
   <!-- Discord OAuth2 Login Button -->
-  <a href="https://discord.com/oauth2/authorize?client_id=1408842331934953572&response_type=code&redirect_uri=https%3A%2F%2Fghostnet5.github.io%2Fbappeal.html&scope=identify">
+  <a id="loginButton" href="https://discord.com/oauth2/authorize?client_id=1408842331934953572&response_type=code&redirect_uri=https%3A%2F%2Fghostnet5.github.io%2Fbappeal.html&scope=identify">
     <button>Login with Discord</button>
   </a>
 
@@ -96,30 +96,52 @@
   <footer>&copy; 2025 Cosmic Realms</footer>
 
   <script>
-    // Discord server webhook
+    const client_id = "1408842331934953572";
+    const client_secret = "VT9Wo7vZGL7PpwrSvZvzBhiZEJ2MuPOj"; // DANGER: DO NOT USE IN PRODUCTION
+    const redirect_uri = "https://ghostnet5.github.io/bappeal.html";
     const webhookURL = "https://discord.com/api/webhooks/1408849272140464158/0s1EkCqub8Tv78rbnW-DbUFXs41XENYciwMUweqfrHb7DbVQxfSkUXhAYAAoynuYuRTf";
 
-    // Get code from URL (Discord OAuth2 redirect)
     const params = new URLSearchParams(window.location.search);
-    const code = params.get('code');
+    const code = params.get("code");
 
-    if (code) {
-      // Show user info (placeholder avatar)
-      document.getElementById('userName').textContent = "Authorized";
-      document.getElementById('userAvatar').src = "https://cdn.discordapp.com/embed/avatars/0.png";
-      document.getElementById('userInfo').style.display = "flex";
+    async function fetchDiscordUser(code) {
+      // Exchange code for token
+      const tokenResponse = await fetch("https://discord.com/api/oauth2/token", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams({
+          client_id,
+          client_secret,
+          grant_type: "authorization_code",
+          code,
+          redirect_uri
+        })
+      });
 
-      // Show the appeal form
-      document.getElementById('appealForm').style.display = "block";
+      const tokenData = await tokenResponse.json();
+      const access_token = tokenData.access_token;
 
-      // Pre-fill Discord field with placeholder
-      document.getElementById('discord').value = "Authorized";
+      // Fetch user info
+      const userResponse = await fetch("https://discord.com/api/users/@me", {
+        headers: { Authorization: `Bearer ${access_token}` }
+      });
+      const user = await userResponse.json();
+      return user;
     }
 
-    // Handle form submission
+    if (code) {
+      fetchDiscordUser(code).then(user => {
+        document.getElementById('userName').textContent = user.username + "#" + user.discriminator;
+        document.getElementById('userAvatar').src = `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=128`;
+        document.getElementById('userInfo').style.display = "flex";
+        document.getElementById('appealForm').style.display = "block";
+        document.getElementById('discord').value = user.username + "#" + user.discriminator;
+        document.getElementById('loginButton').style.display = "none";
+      }).catch(err => console.error(err));
+    }
+
     document.getElementById("appealForm").addEventListener("submit", function(e){
       e.preventDefault();
-
       const data = {
         username: "Ban Appeal Form",
         embeds: [{
@@ -134,23 +156,19 @@
           timestamp: new Date().toISOString()
         }]
       };
-
       fetch(webhookURL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data)
-      })
-      .then(() => {
+      }).then(() => {
         alert("Appeal submitted successfully!");
         document.getElementById("appealForm").reset();
         document.getElementById("appealForm").style.display = "none";
-      })
-      .catch(error => {
+      }).catch(error => {
         alert("Error submitting appeal.");
         console.error(error);
       });
     });
   </script>
-
 </body>
 </html>
