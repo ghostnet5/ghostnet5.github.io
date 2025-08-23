@@ -51,6 +51,7 @@
       gap: 10px;
       color: #e6e6fa;
       font-weight: bold;
+      display: none;
     }
     #userInfo img {
       width: 40px;
@@ -63,17 +64,19 @@
 </head>
 <body>
 
-  <div id="userInfo" style="display:none;">
+  <div id="userInfo">
     <img id="userAvatar" src="" alt="Avatar">
     <span id="userName"></span>
   </div>
 
   <h1>Ban Appeal</h1>
 
+  <!-- Discord OAuth2 Login Button -->
   <a href="https://discord.com/oauth2/authorize?client_id=1408842331934953572&response_type=code&redirect_uri=https%3A%2F%2Fghostnet5.github.io%2Fbappeal.html&scope=identify">
     <button>Login with Discord</button>
   </a>
 
+  <!-- Ban Appeal Form -->
   <form id="appealForm" style="display:none;">
     <label for="name">IGN</label>
     <input type="text" id="name" required />
@@ -93,23 +96,30 @@
   <footer>&copy; 2025 Cosmic Realms</footer>
 
   <script>
-    // Your Discord server webhook
+    // Discord server webhook
     const webhookURL = "https://discord.com/api/webhooks/1408849272140464158/0s1EkCqub8Tv78rbnW-DbUFXs41XENYciwMUweqfrHb7DbVQxfSkUXhAYAAoynuYuRTf";
 
-    // Parse URL for code param (Discord OAuth2 redirect)
+    // Get code from URL (Discord OAuth2 redirect)
     const params = new URLSearchParams(window.location.search);
     const code = params.get('code');
 
     if (code) {
-      // Show user info (in static version, we can't get real Discord avatar without backend)
+      // Show user info (placeholder avatar)
       document.getElementById('userName').textContent = "Authorized";
-      document.getElementById('userAvatar').src = "https://cdn.discordapp.com/embed/avatars/0.png"; // placeholder avatar
+      document.getElementById('userAvatar').src = "https://cdn.discordapp.com/embed/avatars/0.png";
       document.getElementById('userInfo').style.display = "flex";
+
+      // Show the appeal form
       document.getElementById('appealForm').style.display = "block";
+
+      // Pre-fill Discord field with placeholder
+      document.getElementById('discord').value = "Authorized";
     }
 
+    // Handle form submission
     document.getElementById("appealForm").addEventListener("submit", function(e){
       e.preventDefault();
+
       const data = {
         username: "Ban Appeal Form",
         embeds: [{
@@ -117,7 +127,7 @@
           color: 0x4ecca3,
           fields: [
             { name: "IGN", value: document.getElementById("name").value },
-            { name: "Discord", value: document.getElementById("discord").value || "Authorized" },
+            { name: "Discord", value: document.getElementById("discord").value },
             { name: "Reason for Ban", value: document.getElementById("reason").value },
             { name: "Appeal Message", value: document.getElementById("message").value }
           ],
