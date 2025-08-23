@@ -1,159 +1,192 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Cosmic Realms Website</title>
-  <style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cosmic Realms CPvP Tier List</title>
+<style>
     body {
-      margin: 0;
-      background: #1a1a2e;
-      font-family: 'Segoe UI', sans-serif;
-      color: #e6e6fa;
+        font-family: 'Arial', sans-serif;
+        background: #0b0c10;
+        color: #c5c6c7;
+        margin: 0;
+        padding: 0;
     }
     header {
-      background: #16213e;
-      padding: 20px 50px;
-      border-bottom: 3px solid #4ecca3;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
+        background: #1f2833;
+        text-align: center;
+        padding: 1rem;
+        font-size: 2rem;
+        font-weight: bold;
+        color: #66fcf1;
     }
-    .logo {
-      width: 120px;
+    .tier-container {
+        display: flex;
+        flex-direction: column;
+        margin: 20px;
+        gap: 15px;
     }
-    nav {
-      display: flex;
-      gap: 15px;
-      align-items: center;
-      flex-wrap: wrap;
+    .tier {
+        display: flex;
+        flex-direction: column;
+        border-radius: 10px;
+        padding: 10px;
     }
-    .dropdown {
-      position: relative;
+    .tier h2 {
+        margin: 0;
+        padding: 10px;
+        border-radius: 5px;
+        text-align: center;
+        cursor: pointer;
+        color: #0b0c10;
     }
-    .dropbtn {
-      background: transparent;
-      color: #fff;
-      border: 2px solid #4ecca3;
-      padding: 10px 16px;
-      font-size: 15px;
-      cursor: pointer;
-      border-radius: 10px;
-      transition: 0.3s;
+    .tier-items {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        padding: 10px;
+        min-height: 60px;
+        border-radius: 5px;
+        transition: background 0.2s;
     }
-    .dropbtn:hover {
-      background: #4ecca3;
+    .tier-items.drag-over {
+        border: 2px dashed #fff;
     }
-    .dropdown-content {
-      display: none;
-      position: absolute;
-      background-color: #16213e;
-      min-width: 160px;
-      box-shadow: 0 8px 16px rgba(0,0,0,0.4);
-      z-index: 1;
-      border: 1px solid #4ecca3;
-      border-radius: 10px;
+    .item {
+        padding: 10px 15px;
+        background: #66fcf1;
+        color: #0b0c10;
+        border-radius: 5px;
+        cursor: grab;
+        user-select: none;
     }
-    .dropdown-content a {
-      color: #fff;
-      padding: 12px 16px;
-      text-decoration: none;
-      display: block;
-      border-bottom: 1px solid #333;
+    button {
+        margin: 10px;
+        padding: 10px 20px;
+        background: #45a29e;
+        color: #0b0c10;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
     }
-    .dropdown-content a:last-child {
-      border-bottom: none;
-    }
-    .dropdown-content a:hover {
-      background-color: #4ecca3;
-    }
-    .dropdown:hover .dropdown-content {
-      display: block;
-    }
-    main {
-      padding: 60px 20px;
-      text-align: center;
-    }
-    h1 {
-      font-size: 2.6rem;
-      color: #4ecca3;
-      margin-bottom: 20px;
-    }
-    p {
-      font-size: 1.1rem;
-      max-width: 700px;
-      margin: 0 auto 30px;
-    }
-    .quote-box {
-      font-style: italic;
-      margin-top: 40px;
-      color: #dcdcdc;
-      font-size: 1.1rem;
-      height: 40px;
-      transition: opacity 0.5s ease;
-    }
-    footer {
-      text-align: center;
-      padding: 20px;
-      font-size: 14px;
-      background-color: #0f0f1c;
-      border-top: 2px solid #4ecca3;
-    }
-  </style>
+</style>
 </head>
 <body>
-  <header>
-    <img src="logo.png" alt="Logo" class="logo">
-    <nav>
-      <div class="dropdown">
-        <button class="dropbtn">Appeals</button>
-        <div class="dropdown-content">
-          <a href="bappeal.html">Ban</a>
-          <a href="sappeal.html">Suspension</a>
+<header>Cosmic Realms CPvP Tier List</header>
+
+<div class="tier-container" id="tiers">
+    <div class="tier" style="background: #ff3f3f;">
+        <h2>S Tier</h2>
+        <div class="tier-items" data-tier="S"></div>
+    </div>
+    <div class="tier" style="background: #ff8f3f;">
+        <h2>A Tier</h2>
+        <div class="tier-items" data-tier="A"></div>
+    </div>
+    <div class="tier" style="background: #ffd23f;">
+        <h2>B Tier</h2>
+        <div class="tier-items" data-tier="B"></div>
+    </div>
+    <div class="tier" style="background: #3fff3f;">
+        <h2>C Tier</h2>
+        <div class="tier-items" data-tier="C"></div>
+    </div>
+    <div class="tier" style="background: #3f8fff;">
+        <h2>D Tier</h2>
+        <div class="tier-items" data-tier="D"></div>
+    </div>
+    <div class="tier" style="background: #8f3fff;">
+        <h2>Unranked</h2>
+        <div class="tier-items" data-tier="Unranked" id="unranked">
+            <div class="item" draggable="true">Diamond Sword</div>
+            <div class="item" draggable="true">Netherite Sword</div>
+            <div class="item" draggable="true">Crystal PvP</div>
+            <div class="item" draggable="true">Hydro PvP</div>
+            <div class="item" draggable="true">1v1 Kit</div>
         </div>
-      </div>
-      <div class="dropdown">
-        <button class="dropbtn">Tiers</button>
-        <div class="dropdown-content">
-          <a href="stiers.html">Tiers</a>
-          <a href="subtiers.html">Sub tiers</a>
-        </div>
-      </div>
-      <a class="dropbtn" href="https://discord.gg/PzxeWYZkz6" target="_blank">Discord</a>
-      <a class="dropbtn" href="contact.html">Contact</a>
-    </nav>
-  </header>
+    </div>
+</div>
 
-  <main>
-    <h1>Welcome to Cosmic Realms</h1>
-    <p>Your favorite galaxy-themed hub for community, Minecraft, and adventures. Explore new worlds, make friends, and enjoy the cosmic vibe.</p>
-    <div class="quote-box" id="quoteBox">Loading quote...</div>
-  </main>
+<button id="save">💾 Save Tier List</button>
+<button id="load">📂 Load Tier List</button>
+<button id="export">🖼 Export as Image</button>
 
-  <footer>
-    &copy; 2025 Cosmic Realms. All rights reserved.
-  </footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script>
+const items = document.querySelectorAll('.item');
+const tierAreas = document.querySelectorAll('.tier-items');
+let draggedItem = null;
 
-  <script>
-    const quotes = [
-      '"This server feels like another universe" - StarLord99',
-      '"Best realm I’ve joined all year" - NovaCraft',
-      '"Bro you actually out-PvPed me.." - ShadowByte',
-      '"Finally a chill place to build and vibe" - LunarWolf',
-      '"I wasn’t ready for that spawn.. wow" - AstroKnight'
-    ];
-    let currentQuote = 0;
-    const quoteBox = document.getElementById("quoteBox");
-    function showNextQuote() {
-      quoteBox.style.opacity = 0;
-      setTimeout(() => {
-        quoteBox.textContent = quotes[currentQuote];
-        quoteBox.style.opacity = 1;
-        currentQuote = (currentQuote + 1) % quotes.length;
-      }, 300);
-    }
-    showNextQuote();
-    setInterval(showNextQuote, 4000);
-  </script>
+// Drag and Drop + Edit
+function addItemEvents(item) {
+    item.addEventListener('dragstart', () => {
+        draggedItem = item;
+        setTimeout(() => item.style.display = 'none', 0);
+    });
+    item.addEventListener('dragend', () => {
+        setTimeout(() => {
+            draggedItem.style.display = 'block';
+            draggedItem = null;
+        }, 0);
+    });
+    item.addEventListener('dblclick', () => {
+        const newName = prompt('Enter new name for this kit:', item.textContent);
+        if (newName) item.textContent = newName;
+    });
+}
+
+// Initialize items
+document.querySelectorAll('.item').forEach(addItemEvents);
+
+// Drag and Drop areas
+tierAreas.forEach(area => {
+    area.addEventListener('dragover', e => {
+        e.preventDefault();
+        area.classList.add('drag-over');
+    });
+    area.addEventListener('dragleave', () => area.classList.remove('drag-over'));
+    area.addEventListener('drop', () => {
+        area.classList.remove('drag-over');
+        if (draggedItem) area.appendChild(draggedItem);
+    });
+});
+
+// Save / Load Tier List
+document.getElementById('save').addEventListener('click', () => {
+    const data = {};
+    tierAreas.forEach(area => {
+        data[area.dataset.tier] = Array.from(area.children).map(i => i.textContent);
+    });
+    localStorage.setItem('cpvpTierList', JSON.stringify(data));
+    alert('Tier list saved!');
+});
+
+document.getElementById('load').addEventListener('click', () => {
+    const data = JSON.parse(localStorage.getItem('cpvpTierList'));
+    if (!data) return alert('No saved tier list found!');
+    tierAreas.forEach(area => {
+        area.innerHTML = '';
+        (data[area.dataset.tier] || []).forEach(name => {
+            const div = document.createElement('div');
+            div.className = 'item';
+            div.draggable = true;
+            div.textContent = name;
+            area.appendChild(div);
+            addItemEvents(div);
+        });
+    });
+    alert('Tier list loaded!');
+});
+
+// Export as Image
+document.getElementById('export').addEventListener('click', () => {
+    html2canvas(document.getElementById('tiers')).then(canvas => {
+        const link = document.createElement('a');
+        link.download = 'cpvp-tierlist.png';
+        link.href = canvas.toDataURL();
+        link.click();
+    });
+});
+</script>
 </body>
 </html>
