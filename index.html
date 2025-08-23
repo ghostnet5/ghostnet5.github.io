@@ -1,192 +1,181 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cosmic Realms CPvP Tier List</title>
-<style>
-    body {
-        font-family: 'Arial', sans-serif;
-        background: #0b0c10;
-        color: #c5c6c7;
-        margin: 0;
-        padding: 0;
-    }
-    header {
-        background: #1f2833;
-        text-align: center;
-        padding: 1rem;
-        font-size: 2rem;
-        font-weight: bold;
-        color: #66fcf1;
-    }
-    .tier-container {
-        display: flex;
-        flex-direction: column;
-        margin: 20px;
-        gap: 15px;
-    }
-    .tier {
-        display: flex;
-        flex-direction: column;
-        border-radius: 10px;
-        padding: 10px;
-    }
-    .tier h2 {
-        margin: 0;
-        padding: 10px;
-        border-radius: 5px;
-        text-align: center;
-        cursor: pointer;
-        color: #0b0c10;
-    }
-    .tier-items {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        padding: 10px;
-        min-height: 60px;
-        border-radius: 5px;
-        transition: background 0.2s;
-    }
-    .tier-items.drag-over {
-        border: 2px dashed #fff;
-    }
-    .item {
-        padding: 10px 15px;
-        background: #66fcf1;
-        color: #0b0c10;
-        border-radius: 5px;
-        cursor: grab;
-        user-select: none;
-    }
-    button {
-        margin: 10px;
-        padding: 10px 20px;
-        background: #45a29e;
-        color: #0b0c10;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cosmic Realms CPvP Tier List</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #0b0c10;
+            color: #c5c6c7;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+        header {
+            background: #1f2833;
+            text-align: center;
+            padding: 1rem;
+            font-size: 2rem;
+            font-weight: bold;
+            color: #66fcf1;
+            width: 100%;
+        }
+        .tier-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 20px;
+        }
+        .tier {
+            background: #1f2833;
+            border-radius: 10px;
+            padding: 10px;
+            width: 200px;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .tier h2 {
+            margin: 0;
+            padding: 10px;
+            background: #66fcf1;
+            color: #0b0c10;
+            border-radius: 5px;
+            width: 100%;
+            text-align: center;
+        }
+        .tier-items {
+            margin-top: 10px;
+            width: 100%;
+            min-height: 200px;
+            background: #0b0c10;
+            border-radius: 5px;
+            padding: 10px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        .item {
+            background: #66fcf1;
+            color: #0b0c10;
+            padding: 8px;
+            border-radius: 5px;
+            cursor: grab;
+            user-select: none;
+        }
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            background: #45a29e;
+            color: #0b0c10;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #66fcf1;
+            color: #0b0c10;
+        }
+        @media (max-width: 768px) {
+            .tier-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            .tier {
+                width: 90%;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
 </head>
 <body>
-<header>Cosmic Realms CPvP Tier List</header>
-
-<div class="tier-container" id="tiers">
-    <div class="tier" style="background: #ff3f3f;">
-        <h2>S Tier</h2>
-        <div class="tier-items" data-tier="S"></div>
-    </div>
-    <div class="tier" style="background: #ff8f3f;">
-        <h2>A Tier</h2>
-        <div class="tier-items" data-tier="A"></div>
-    </div>
-    <div class="tier" style="background: #ffd23f;">
-        <h2>B Tier</h2>
-        <div class="tier-items" data-tier="B"></div>
-    </div>
-    <div class="tier" style="background: #3fff3f;">
-        <h2>C Tier</h2>
-        <div class="tier-items" data-tier="C"></div>
-    </div>
-    <div class="tier" style="background: #3f8fff;">
-        <h2>D Tier</h2>
-        <div class="tier-items" data-tier="D"></div>
-    </div>
-    <div class="tier" style="background: #8f3fff;">
-        <h2>Unranked</h2>
-        <div class="tier-items" data-tier="Unranked" id="unranked">
-            <div class="item" draggable="true">Diamond Sword</div>
-            <div class="item" draggable="true">Netherite Sword</div>
-            <div class="item" draggable="true">Crystal PvP</div>
-            <div class="item" draggable="true">Hydro PvP</div>
-            <div class="item" draggable="true">1v1 Kit</div>
+    <header>Cosmic Realms CPvP Tier List</header>
+    <div class="tier-container" id="tiers">
+        <div class="tier" data-tier="S">
+            <h2>S Tier</h2>
+            <div class="tier-items" id="S"></div>
+        </div>
+        <div class="tier" data-tier="A">
+            <h2>A Tier</h2>
+            <div class="tier-items" id="A"></div>
+        </div>
+        <div class="tier" data-tier="B">
+            <h2>B Tier</h2>
+            <div class="tier-items" id="B"></div>
+        </div>
+        <div class="tier" data-tier="C">
+            <h2>C Tier</h2>
+            <div class="tier-items" id="C"></div>
+        </div>
+        <div class="tier" data-tier="D">
+            <h2>D Tier</h2>
+            <div class="tier-items" id="D"></div>
+        </div>
+        <div class="tier" data-tier="Unranked">
+            <h2>Unranked</h2>
+            <div class="tier-items" id="Unranked">
+                <div class="item" draggable="true">Diamond Sword</div>
+                <div class="item" draggable="true">Netherite Sword</div>
+                <div class="item" draggable="true">Crystal PvP</div>
+                <div class="item" draggable="true">Hydro PvP</div>
+                <div class="item" draggable="true">1v1 Kit</div>
+            </div>
         </div>
     </div>
-</div>
+    <button id="export">🖼 Export as Image</button>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script>
+        const items = document.querySelectorAll('.item');
+        const tiers = document.querySelectorAll('.tier-items');
+        let draggedItem = null;
 
-<button id="save">💾 Save Tier List</button>
-<button id="load">📂 Load Tier List</button>
-<button id="export">🖼 Export as Image</button>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-<script>
-const items = document.querySelectorAll('.item');
-const tierAreas = document.querySelectorAll('.tier-items');
-let draggedItem = null;
-
-// Drag and Drop + Edit
-function addItemEvents(item) {
-    item.addEventListener('dragstart', () => {
-        draggedItem = item;
-        setTimeout(() => item.style.display = 'none', 0);
-    });
-    item.addEventListener('dragend', () => {
-        setTimeout(() => {
-            draggedItem.style.display = 'block';
-            draggedItem = null;
-        }, 0);
-    });
-    item.addEventListener('dblclick', () => {
-        const newName = prompt('Enter new name for this kit:', item.textContent);
-        if (newName) item.textContent = newName;
-    });
-}
-
-// Initialize items
-document.querySelectorAll('.item').forEach(addItemEvents);
-
-// Drag and Drop areas
-tierAreas.forEach(area => {
-    area.addEventListener('dragover', e => {
-        e.preventDefault();
-        area.classList.add('drag-over');
-    });
-    area.addEventListener('dragleave', () => area.classList.remove('drag-over'));
-    area.addEventListener('drop', () => {
-        area.classList.remove('drag-over');
-        if (draggedItem) area.appendChild(draggedItem);
-    });
-});
-
-// Save / Load Tier List
-document.getElementById('save').addEventListener('click', () => {
-    const data = {};
-    tierAreas.forEach(area => {
-        data[area.dataset.tier] = Array.from(area.children).map(i => i.textContent);
-    });
-    localStorage.setItem('cpvpTierList', JSON.stringify(data));
-    alert('Tier list saved!');
-});
-
-document.getElementById('load').addEventListener('click', () => {
-    const data = JSON.parse(localStorage.getItem('cpvpTierList'));
-    if (!data) return alert('No saved tier list found!');
-    tierAreas.forEach(area => {
-        area.innerHTML = '';
-        (data[area.dataset.tier] || []).forEach(name => {
-            const div = document.createElement('div');
-            div.className = 'item';
-            div.draggable = true;
-            div.textContent = name;
-            area.appendChild(div);
-            addItemEvents(div);
+        items.forEach(item => {
+            item.addEventListener('dragstart', () => {
+                draggedItem = item;
+                setTimeout(() => item.style.display = 'none', 0);
+            });
+            item.addEventListener('dragend', () => {
+                setTimeout(() => {
+                    draggedItem.style.display = 'block';
+                    draggedItem = null;
+                }, 0);
+            });
         });
-    });
-    alert('Tier list loaded!');
-});
 
-// Export as Image
-document.getElementById('export').addEventListener('click', () => {
-    html2canvas(document.getElementById('tiers')).then(canvas => {
-        const link = document.createElement('a');
-        link.download = 'cpvp-tierlist.png';
-        link.href = canvas.toDataURL();
-        link.click();
-    });
-});
-</script>
+        tiers.forEach(tier => {
+            tier.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                tier.style.background = '#1f2833';
+            });
+            tier.addEventListener('dragleave', () => {
+                tier.style.background = '#0b0c10';
+            });
+            tier.addEventListener('drop', () => {
+                if (draggedItem) {
+                    tier.appendChild(draggedItem);
+                    tier.style.background = '#0b0c10';
+                }
+            });
+        });
+
+        document.getElementById('export').addEventListener('click', () => {
+            html2canvas(document.getElementById('tiers')).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'cpvp-tierlist.png';
+                link.href = canvas.toDataURL();
+                link.click();
+            });
+        });
+    </script>
 </body>
 </html>
